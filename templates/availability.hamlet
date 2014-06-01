@@ -1,0 +1,19 @@
+<h1> Availability
+<div>
+  <table .table .table-striped .table-hover>
+    <tbody>
+      <thead>
+        <tr>
+          <th>
+          $forall Entity eid evt <- es
+            <th>
+              <h4>
+                <a href=@{EventR eid}>#{eventTitle evt}
+              #{show $ eventDate evt}
+      <tbody>
+        $forall Entity uid user <- us
+          <tr>
+            <td>
+              <a href=@{UserR uid}>#{mconcat [userFirstname user, " ", userLastname user]}
+            $forall Entity eid evt <- es
+              <td>X

@@ -1,0 +1,42 @@
+<h1> Events
+  <button .btn .btn-primary .pull-right data-toggle="modal" data-target="#add-user-modal">Add event
+
+$forall Entity eid evt <- us
+  <div .panel-group #accordion>
+    <div .panel panel-default>
+      <div .panel-heading>
+        <h4 .panel-title>
+          <span .pull-right>
+            #{show $ eventDate evt}
+            <a data-toggle="collapse" data-parent="#accordion">
+              <span .glyphicon .glyphicon-chevron-down></span>
+          <a href=@{EventR eid}>#{eventTitle evt}
+      <div #collapseOne .panel-collapse .collapse .in>
+        <div class="panel-body">
+          <table .table .table-striped>
+            <tbody>
+              <tr> 
+                <td> When:
+                <td>#{show $ eventDate evt} #{show $ eventTime evt}
+              <tr>
+                <td> Location:
+                <td> #{fromMaybe "" $ eventLocation evt}
+              <tr>
+                <td> Link:
+                <td> #{fromMaybe "" $ eventLink evt}
+              <tr>
+                <td> Notes:
+                <td> #{fromMaybe "" $ eventNotes evt}
+
+<div .modal .fade #add-user-modal tabindex="-1" role="dialog" aria-labelledby="addUserModal" aria-hidden="true">
+  <div .modal-dialog .modal-lg>
+    <div .modal-content>
+      <div .modal-header>
+        <button .close type="button" data-dismiss="modal" aria-hidden="true">×
+        <h4 .modal-title #myLargeModalLabel>Add event
+      <div .modal-body>
+        <div .row>
+          <div .col-sm-12>
+            <form .form-horizontal method=post role=form action=@{EventsR} enctype=#{formEnctype}>
+              ^{formWidget}
+          

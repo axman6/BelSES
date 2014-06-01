@@ -1,0 +1,6 @@
+<h1>#{eventTitle evt}
+<table>
+  <tbody>
+    <tr>
+      <td>When:
+      <td>#{show $ eventDate evt}

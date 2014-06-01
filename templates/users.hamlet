@@ -1,0 +1,11 @@
+<h1>Hello
+$maybe us <- mus
+    <ul>
+        $forall Entity uid user <- us
+            <li>
+                <a href=@{UserR uid}>#{userPrettyName user}
+$nothing
+    <p>No users
+<form method=post action=@{UsersR} enctype=#{formEnctype}>
+  ^{formWidget}
+  <input type="submit" value="Add user">
