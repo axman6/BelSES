@@ -52,7 +52,7 @@ newUserForm' :: Form Text
 newUserForm' = renderDivs $ areq textField "New user's name:" Nothing
 
 newUserForm :: Form User
-newUserForm = renderBootstrap3 (BootstrapHorizontalForm (ColSm 0) (ColSm 2) (ColSm 0) (ColSm 10))
+newUserForm = renderBootstrap3 formLayout
     $ User
     <$> areq emailField  (bfs' "Email:") Nothing
     <*> areq textField  (bfs' "First name:") Nothing
@@ -61,6 +61,7 @@ newUserForm = renderBootstrap3 (BootstrapHorizontalForm (ColSm 0) (ColSm 2) (Col
     <*> pure Nothing
     <*> pure Nothing
     <*> pure False
+    <*  (bootstrapSubmit $ BootstrapSubmit ("Add User" :: Text) "" [])
     
 
 

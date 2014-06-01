@@ -1,13 +1,12 @@
 module Import
     ( module Import
-    , bfs'
     ) where
 
 import           Prelude              as Import hiding (head, init, last,
                                                  readFile, tail, writeFile)
 import           Yesod                as Import hiding (Route (..))
 
-import           Control.Applicative  as Import (pure, (<$>), (<*>))
+import           Control.Applicative  as Import (pure, (<$>), (<*>), (<*))
 import           Data.Text            as Import (Text)
 
 import           Foundation           as Import
@@ -29,7 +28,6 @@ import           Data.Monoid          as Import
 import           Data.Monoid          as Import
                                                  (Monoid (mappend, mempty, mconcat))
 
-
 infixr 5 <>
 (<>) :: Monoid m => m -> m -> m
 (<>) = mappend
@@ -37,3 +35,6 @@ infixr 5 <>
 
 bfs' :: (RenderMessage site Text) => Text -> FieldSettings site
 bfs' m = bfs m
+
+formLayout :: BootstrapFormLayout
+formLayout = BootstrapHorizontalForm (ColSm 0) (ColSm 2) (ColSm 0) (ColSm 10)

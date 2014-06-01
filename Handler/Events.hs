@@ -5,7 +5,6 @@ import Data.Time.Clock
 import Data.Time.LocalTime
 import Yesod.Form.Jquery
 import Yesod.Form.Bootstrap3
-import Control.Applicative ((<*))
 
 
 getEventsR :: Handler Html
@@ -40,7 +39,7 @@ postEventsR = do
 
 
 eventForm :: Html -> MForm Handler (FormResult Event, Widget)
-eventForm = renderBootstrap3 (BootstrapHorizontalForm (ColSm 0) (ColSm 2) (ColSm 0) (ColSm 10))
+eventForm = renderBootstrap3 formLayout
     $ Event
      <$> areq textField  (bfs' "Title") Nothing
      <*> areq (jqueryDayField def
