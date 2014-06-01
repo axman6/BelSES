@@ -1,4 +1,5 @@
 <h1>Hello
+  <button .btn .btn-primary .pull-right data-toggle="modal" data-target="#add-user-modal">Add User
 $maybe us <- mus
     <ul>
         $forall Entity uid user <- us
@@ -6,6 +7,16 @@ $maybe us <- mus
                 <a href=@{UserR uid}>#{userPrettyName user}
 $nothing
     <p>No users
-<form method=post action=@{UsersR} enctype=#{formEnctype}>
-  ^{formWidget}
-  <input type="submit" value="Add user">
+
+
+<div .modal .fade #add-user-modal tabindex="-1" role="dialog" aria-labelledby="addUserModal" aria-hidden="true">
+  <div .modal-dialog .modal-lg>
+    <div .modal-content>
+      <div .modal-header>
+        <button .close type="button" data-dismiss="modal" aria-hidden="true">×
+        <h4 .modal-title #myLargeModalLabel>New File
+      <div .modal-body>
+        <div .row>
+          <div .col-sm-12>
+            <form .form-horizontal method=post role=form action=@{UsersR} enctype=#{formEnctype}>
+              ^{formWidget}
