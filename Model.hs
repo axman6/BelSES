@@ -5,6 +5,7 @@ import Yesod
 import Data.Text (Text)
 import Database.Persist.Quasi
 import Data.Typeable (Typeable)
+import Data.Time.Clock
 import Data.Time.Calendar
 import Data.Time.LocalTime
 

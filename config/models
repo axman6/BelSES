@@ -30,5 +30,11 @@ Availability
     comment     Text Maybe
     UniqueAvailability user event
 
+Document
+    title       Text
+    -- uploader    UserId
+    contentType Text
+    dateTime    UTCTime
+    written     Bool
 
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)

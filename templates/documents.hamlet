@@ -1,0 +1,21 @@
+<h1> Documents
+  <button .btn .btn-primary .pull-right data-toggle="modal" data-target="#add-document-modal">Add document
+<table>
+  <tbody>
+    $forall Entity did doc <- docs
+      <tr>
+        <td>
+          <a href=@{DocumentR did}>
+            #{documentTitle doc}
+
+<div .modal .fade #add-document-modal tabindex="-1" role="dialog" aria-labelledby="addUserModal" aria-hidden="true">
+  <div .modal-dialog .modal-lg>
+    <div .modal-content>
+      <div .modal-header>
+        <button .close type="button" data-dismiss="modal" aria-hidden="true">×
+        <h4 .modal-title #myLargeModalLabel>New File
+      <div .modal-body>
+        <div .row>
+          <div .col-sm-12>
+            <form .form-horizontal method=post role=form action=@{DocumentsR} enctype=#{formEnctype}>
+              ^{formWidget}

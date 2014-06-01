@@ -12,3 +12,6 @@
 /events EventsR GET POST
 /event/#EventId EventR GET
 /availability AvailR GET
+/documents DocumentsR GET POST
+/document/#DocumentId DocumentR GET POST
+/document/#DocumentId/download DocumentDownloadR GET

@@ -25,6 +25,8 @@ library
                      Handler.Events
                      Handler.Event
                      Handler.Avail
+                     Handler.Documents
+                     Handler.Document
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
