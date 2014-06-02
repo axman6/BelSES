@@ -46,7 +46,7 @@ eventForm = renderBootstrap3 formLayout
          { jdsChangeYear = True -- give a year dropdown
          , jdsYearRange = "2010:+30" -- 1900 till five years ago
          })  (bfs' "Date") Nothing
-     <*> pure midnight
+     <*> areq timeField (bfs' "Time") Nothing
      <*> aopt textField  (bfs' "Location") Nothing
      <*> aopt urlField  (bfs' "Link") Nothing
      <*> (fmap unTextarea <$> aopt textareaField  (bfs' "Notes") (Just Nothing))
