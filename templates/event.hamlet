@@ -4,3 +4,24 @@
     <tr>
       <td>When:
       <td>#{show $ eventDate evt}
+
+<h4>
+  Available
+<ul>
+  $forall u <- yes
+    <li>
+      #{userPrettyName u}
+
+<h4>
+  Unsure
+<ul>
+  $forall u <- unsure
+    <li>
+      #{userPrettyName u}
+
+<h4>
+  Unavailable
+<ul>
+  $forall u <- no
+    <li>
+      #{userPrettyName u}

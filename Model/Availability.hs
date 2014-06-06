@@ -7,9 +7,10 @@ module Model.Availability
  where
 
 import Database.Persist.TH
-import Prelude (Show, Read, Eq)
+import Prelude (Show, Read, Eq, Ord)
 
-data Available = Unset | Yes | No | Unsure deriving (Show, Read, Eq)
+data Available = Unset | Yes | No | Unsure 
+    deriving (Show, Read, Eq, Ord)
 
 toggleAvailability :: Available -> Available
 toggleAvailability a = case a of
