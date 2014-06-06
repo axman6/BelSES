@@ -12,7 +12,7 @@
   <div .modal-dialog .modal-lg>
     <div .modal-content>
       <div .modal-header>
-        <button .close type="button" data-dismiss="modal" aria-hidden="true">×
+        <button .close type="button" data-dismiss="modal" aria-hidden="true">&times;
         <h4 .modal-title #myLargeModalLabel>New File
       <div .modal-body>
         <div .row>
