@@ -1,19 +1,21 @@
 <h1>Hello
   <button .btn .btn-primary .pull-right data-toggle="modal" data-target="#add-user-modal">Add User
-$maybe us <- mus
-    <ul>
-        $forall Entity uid user <- us
-            <li>
-                <a href=@{UserR uid}>#{userPrettyName user}
-$nothing
+$case us
+  $of []
     <p>No users
+  $of us
+    <ul>
+      $forall Entity uid user <- us
+        <li>
+          <a href=@{UserR uid}>#{userPrettyName user}
+    
 
 
 <div .modal .fade #add-user-modal tabindex="-1" role="dialog" aria-labelledby="addUserModal" aria-hidden="true">
   <div .modal-dialog .modal-lg>
     <div .modal-content>
       <div .modal-header>
-        <button .close type="button" data-dismiss="modal" aria-hidden="true">×
+        <button .close type="button" data-dismiss="modal" aria-hidden="true">&times;
         <h4 .modal-title #myLargeModalLabel>New File
       <div .modal-body>
         <div .row>

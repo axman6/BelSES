@@ -4,6 +4,7 @@ module Handler.Users where
 import Import
 
 import Yesod.Form.Bootstrap3
+import Text.Blaze.Html5
 
 userPrettyName :: User -> Text
 userPrettyName u = 
@@ -23,8 +24,8 @@ userShortName u =
 
 getUsersR :: Handler Html
 getUsersR = do
-    mus <- runDB $ do
-        Just <$> selectList [] [Asc UserFirstname]
+    us <- runDB $ do
+        selectList [] [Asc UserFirstname]
     -- let mus = listToMaybe us
     (formWidget, formEnctype) <- generateFormPost newUserForm
     defaultLayout $ do
@@ -35,14 +36,18 @@ getUsersR = do
 postUsersR :: Handler Html
 postUsersR = do
     ((result, formWidget), formEnctype) <- runFormPost newUserForm
-    let submission = case result of
-            FormSuccess res -> Just res
-            _ -> Nothing
-    mus <- case submission of
-        Nothing -> return Nothing
-        Just user -> runDB $ do
-            _ <- insert user
-            fmap Just $ selectList [] [Asc UserFirstname]
+    
+    us <- runDB $ do
+        case result of
+            FormFailure xs -> do
+                setMessage (ul . toHtml $ Import.map (li.toHtml) xs)
+            FormSuccess user -> do
+                _ <- insert user
+                return ()
+            FormMissing ->
+                setMessage "No form data"
+        selectList [] [Asc UserFirstname]
+            
     defaultLayout $ do
         setTitle "Users"
         $(widgetFile "users")

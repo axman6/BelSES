@@ -76,6 +76,7 @@ library
                  , wai-logger               >= 2.1      && < 2.2
                                                         
                  , time                     >= 1.4.2    && < 1.5
+                 , blaze-html               >= 0.7      && < 0.8
 
 executable         BelSES
     if flag(library-only)
