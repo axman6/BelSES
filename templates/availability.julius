@@ -1,0 +1,37 @@
+var upSt = function(thing,url) {
+    $(thing).removeClass('btn-default', 'btn-success', 'btn-danger', 'btn-warning');
+    $(thing).addClass('disabled');
+    
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: {dummy: 
+                0},
+        dataType: 'html',
+        success: function(response){
+            console.log(response);
+            
+            cl = ''
+            
+            switch(response){
+                case 'Unset':   cl = 'default'; break;
+                case 'Yes':     cl = 'success'; break;
+                case 'No':      cl = 'danger'; break;
+                case 'Unsure':  cl = 'warning'; break;
+            }
+            
+            // $(thing).removeClass('disabled');
+            $(thing).addClass('btn-'.concat(cl));
+            
+            if(response == 'Unset'){
+                thing.innerHTML = '&nbsp;&nbsp;&nbsp;'
+            } else {
+                thing.innerHTML = response;
+            }
+            
+        },
+        complete: function(xhr,status){
+            $(thing).removeClass('disabled');
+        }
+    })
+}

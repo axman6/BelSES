@@ -12,6 +12,8 @@
 /events EventsR GET POST
 /event/#EventId EventR GET
 /availability AvailR GET
+/availability/toggle/#UserId/#EventId ToggleAvailR POST
+
 /documents DocumentsR GET POST
 /document/#DocumentId DocumentR GET POST
 /document/#DocumentId/download DocumentDownloadR GET

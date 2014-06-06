@@ -1,12 +1,12 @@
 <h1> Availability
-<div>
-  <table .table .table-striped .table-hover>
+<div .table-responsive>
+  <table .table .table-striped .table-hover .table-bordered>
     <tbody>
       <thead>
         <tr>
           <th>
           $forall Entity eid evt <- es
-            <th>
+            <th .text-center>
               <h4>
                 <a href=@{EventR eid}>#{eventTitle evt}
               #{show $ eventDate evt}
@@ -14,6 +14,45 @@
         $forall Entity uid user <- us
           <tr>
             <td>
-              <a href=@{UserR uid}>#{mconcat [userFirstname user, " ", userLastname user]}
+              <a href=@{UserR uid}>#{userPrettyName user}
             $forall Entity eid evt <- es
-              <td>X
+              <td .text-center>
+                $case M.lookup (uid,eid) mp
+                    $of Nothing
+                      <button type="button" .close data-toggle="tooltip" data-placement="right"
+                            title="comment" data-original-title="No comment">
+                        <span .glyphicon .glyphicon-comment .pull-right .text-muted></span>
+                      <button type="button" .btn .btn-default .btn-xs
+                          onClick="upSt(this,'@{ToggleAvailR uid eid}');">
+                        &nbsp;&nbsp;&nbsp;
+                    $of Just (a,note)
+                      $maybe nt <- note
+                        <button type="button" .close data-toggle="tooltip" data-placement="right" 
+                              title="comment" data-original-title="#{nt}">
+                          <span .glyphicon .glyphicon-comment .pull-right .text-muted></span>
+                      $nothing
+                        <button type="button" .close data-toggle="tooltip" data-placement="right"
+                              title="comment" data-original-title="No comment">
+                          <span .glyphicon .glyphicon-comment .pull-right .text-muted></span>
+                      $case a
+                        $of Yes
+                          <button type="button" .btn .btn-success .btn-xs
+                              onClick="upSt(this,'@{ToggleAvailR uid eid}');">
+                              #{show Yes}
+                        $of No
+                          <button type="button" .btn .btn-danger .btn-xs
+                              onClick="upSt(this,'@{ToggleAvailR uid eid}');">
+                              #{show No}
+                        $of Unsure
+                          <button type="button" .btn .btn-warning .btn-xs
+                              onClick="upSt(this,'@{ToggleAvailR uid eid}');">
+                              #{show Unsure}
+                        $of Unset
+                          <button type="button" .btn .btn-default .btn-xs
+                              onClick="upSt(this,'@{ToggleAvailR uid eid}');">
+                            &nbsp;&nbsp;&nbsp;
+               
+                
+
+                
+
