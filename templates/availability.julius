@@ -1,5 +1,9 @@
 var upSt = function(thing,url) {
-    $(thing).removeClass('btn-default', 'btn-success', 'btn-danger', 'btn-warning');
+    console.log(thing);
+    $(thing).removeClass('btn-default');
+    $(thing).removeClass('btn-success');
+    $(thing).removeClass('btn-danger');
+    $(thing).removeClass('btn-warning');
     $(thing).addClass('disabled');
     
     $.ajax({
@@ -9,7 +13,6 @@ var upSt = function(thing,url) {
                 0},
         dataType: 'html',
         success: function(response){
-            console.log(response);
             
             cl = ''
             
@@ -20,7 +23,6 @@ var upSt = function(thing,url) {
                 case 'Unsure':  cl = 'warning'; break;
             }
             
-            // $(thing).removeClass('disabled');
             $(thing).addClass('btn-'.concat(cl));
             
             if(response == 'Unset'){

@@ -13,7 +13,7 @@
       <tbody>
         $forall Entity uid user <- us
           <tr>
-            <td>
+            <td .text-right>
               <a href=@{UserR uid}>#{userPrettyName user}
             $forall Entity eid evt <- es
               <td .text-center>
