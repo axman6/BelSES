@@ -1,6 +1,6 @@
 <h1> Availability
-<div .table-responsive>
-  <table .table .table-striped .table-hover .table-bordered>
+<div .table-responsive style="height:500px">
+  <table .table .table-striped .table-hover .table-bordered #avail>
     <tbody>
       <thead>
         <tr>
@@ -14,45 +14,22 @@
         $forall Entity uid user <- us
           <tr>
             <td .text-right>
-              <a href=@{UserR uid}>#{userPrettyName user}
+              <a href=@{UserR uid}>#{userShortName user}
             $forall Entity eid evt <- es
               <td .text-center>
-                $case M.lookup (uid,eid) mp
-                    $of Nothing
-                      <button type="button" .close data-toggle="tooltip" data-placement="right"
-                            title="comment" data-original-title="No comment">
+                $case avInfo (uid,eid)
+                  $of (cls,cont,note)
+                
+                    <button type="button" .btn .#{cls} .btn-xs
+                        onClick="upSt(this,'@{ToggleAvailR uid eid}');">
+                        #{preEscapedToMarkup cont}
+                    
+                    $maybe nt <- note
+                       <button type="button" .close data-toggle="tooltip" data-placement="right" 
+                             title="comment" data-original-title="#{nt}">
+                         <span .glyphicon .glyphicon-comment .pull-right .text-muted></span>
+                    $nothing
+                      <button type="button" .close data-toggle="tooltip" data-placement="right" 
+                            title="comment" data-original-title="">
                         <span .glyphicon .glyphicon-comment .pull-right .text-muted></span>
-                      <button type="button" .btn .btn-default .btn-xs
-                          onClick="upSt(this,'@{ToggleAvailR uid eid}');">
-                        &nbsp;&nbsp;&nbsp;
-                    $of Just (a,note)
-                      $maybe nt <- note
-                        <button type="button" .close data-toggle="tooltip" data-placement="right" 
-                              title="comment" data-original-title="#{nt}">
-                          <span .glyphicon .glyphicon-comment .pull-right .text-muted></span>
-                      $nothing
-                        <button type="button" .close data-toggle="tooltip" data-placement="right"
-                              title="comment" data-original-title="No comment">
-                          <span .glyphicon .glyphicon-comment .pull-right .text-muted></span>
-                      $case a
-                        $of Yes
-                          <button type="button" .btn .btn-success .btn-xs
-                              onClick="upSt(this,'@{ToggleAvailR uid eid}');">
-                              #{show Yes}
-                        $of No
-                          <button type="button" .btn .btn-danger .btn-xs
-                              onClick="upSt(this,'@{ToggleAvailR uid eid}');">
-                              #{show No}
-                        $of Unsure
-                          <button type="button" .btn .btn-warning .btn-xs
-                              onClick="upSt(this,'@{ToggleAvailR uid eid}');">
-                              #{show Unsure}
-                        $of Unset
-                          <button type="button" .btn .btn-default .btn-xs
-                              onClick="upSt(this,'@{ToggleAvailR uid eid}');">
-                            &nbsp;&nbsp;&nbsp;
-               
-                
-
-                
 

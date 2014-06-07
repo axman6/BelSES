@@ -1,21 +1,23 @@
-var upSt = function(thing,url) {
-    console.log(thing);
-    $(thing).removeClass('btn-default');
-    $(thing).removeClass('btn-success');
-    $(thing).removeClass('btn-danger');
-    $(thing).removeClass('btn-warning');
-    $(thing).addClass('disabled');
+function upSt(target,url) {
+    
+    var t = $(target);
+    var oldClass    = t.attr('class');
+    var oldContent  = t.html();
+    
+    t.removeClass('btn-default');
+    t.removeClass('btn-success');
+    t.removeClass('btn-danger');
+    t.removeClass('btn-warning');
+    t.addClass('disabled');
+    
+    t.html('<img src="/static/img/ajax-loader.gif"/>');
     
     $.ajax({
         url: url,
         type: 'POST',
-        data: {dummy: 
-                0},
         dataType: 'html',
         success: function(response){
-            
             cl = ''
-            
             switch(response){
                 case 'Unset':   cl = 'default'; break;
                 case 'Yes':     cl = 'success'; break;
@@ -23,17 +25,31 @@ var upSt = function(thing,url) {
                 case 'Unsure':  cl = 'warning'; break;
             }
             
-            $(thing).addClass('btn-'.concat(cl));
+            t.addClass('btn-'.concat(cl));
             
             if(response == 'Unset'){
-                thing.innerHTML = '&nbsp;&nbsp;&nbsp;'
+                t.html('&nbsp;&nbsp;&nbsp;');
             } else {
-                thing.innerHTML = response;
+                t.text(response);
             }
             
         },
+        error: function( xhr, status, errorThrown ){
+            t.attr('class',oldClass);
+            t.html(oldContent);
+            t.removeClass('disabled');
+        },
         complete: function(xhr,status){
-            $(thing).removeClass('disabled');
+            t.removeClass('disabled');
         }
     })
 }
+
+// $( document ).ready(function() {
+//     console.log( "ready!" );
+//     $('#avail').fixedHeaderTable({
+//         footer: false,
+//         cloneHeadToFoot: false,
+//         fixedColumn: true
+//     });
+// });

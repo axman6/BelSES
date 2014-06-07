@@ -17,7 +17,17 @@ getAvailR = do
         us <- selectList [] [Asc UserFirstname]
         rs <- selectList [AvailabilityEvent <-. map entityKey es] []
         return (es,us,rs)
+    
     let mp = M.fromList $ map (\(Entity _ (Availability u e st note)) -> ((u,e),(st,note))) rs
+        
+        avInfo :: (UserId,EventId) -> (Text, Text, Maybe Text)
+        avInfo (uid,eid) = case M.lookup (uid,eid) mp of
+            Nothing ->             ("btn-default"   ,"&nbsp;&nbsp;&nbsp;"   ,Nothing)
+            Just (Yes,    note) -> ("btn-success"   ,"Yes"                  ,note)
+            Just (No,     note) -> ("btn-danger"    ,"No"                   ,note)
+            Just (Unsure, note) -> ("btn-warning"   ,"Unsure"               ,note)
+            Just (Unset,  note) -> ("btn-default"   ,"&nbsp;&nbsp;&nbsp;"   ,note)
+
     defaultLayout $ do
         setTitle "Availability"
         $(widgetFile "availability")
