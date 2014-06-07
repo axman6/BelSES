@@ -5,6 +5,7 @@ import Import
 
 import Yesod.Form.Bootstrap3
 import Text.Blaze.Html5
+import qualified Data.Text as T
 
 userPrettyName :: User -> Text
 userPrettyName u = 
@@ -19,8 +20,8 @@ userShortName :: User -> Text
 userShortName u =
     let nick = userNickname u in
     case nick of
-        Nothing -> userFirstname u
-        Just n -> n
+        Nothing -> userFirstname u <> " " <> T.take 1 (userLastname u) <> "."
+        Just n -> "\"" <> n <> "\""
 
 getUsersR :: Handler Html
 getUsersR = do
