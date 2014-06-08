@@ -6,6 +6,8 @@ import Data.Map.Strict as M
 import Data.Set as S
 import Model.Availability
 import Handler.Users (userPrettyName)
+import Data.List (sortBy)
+import Data.Ord (comparing)
 
 getEventR :: EventId -> Handler Html
 getEventR eid = do
@@ -14,26 +16,39 @@ getEventR eid = do
         avs <- selectList [AvailabilityEvent ==. eid] []
         us  <- selectList [] [Asc UserFirstname]
         return (evt,avs,us)
-    let amap :: M.Map Available [Entity Availability]
-        amap =
+    let amapDay :: M.Map Available [Entity Availability]
+        amapDay =
             M.fromListWith (++)
             . (Import.map (\s -> (s,[])) [Yes, No, Unsure, Unset] ++)
-            . Import.map (\(Entity avid avail) -> (availabilityStatus avail, [Entity avid avail]))
+            . Import.map (\(Entity avid avail) -> (availabilityStatusDay avail, [Entity avid avail]))
             $ avs
-        umap :: M.Map UserId User
+        
+        amapNight :: M.Map Available [Entity Availability]
+        amapNight =
+            M.fromListWith (++)
+            . (Import.map (\s -> (s,[])) [Yes, No, Unsure, Unset] ++)
+            . Import.map (\(Entity avid avail) -> (availabilityStatusNight avail, [Entity avid avail]))
+            $ avs
+        
+        umap :: M.Map UserId (Entity User)
         umap =
             M.fromList
-            . Import.map (\(Entity uid user) -> (uid,user))
+            . Import.map (\ue@(Entity uid _) -> (uid,ue))
             $ us
         -- uset :: S.Set UserId
         -- uset =
         --     S.fromList
         --     . Import.map (\(Entity uid _) -> uid)
         --     $ us
-        yes, no, unsure :: [User]
-        yes    = Import.map ((umap M.!) . availabilityUser . entityVal) $ amap ! Yes
-        no     = Import.map ((umap M.!) . availabilityUser . entityVal) $ amap ! No
-        unsure = Import.map ((umap M.!) . availabilityUser . entityVal) $ amap ! Unsure
+        usersWhoAre :: Available -> M.Map Available [Entity Availability] -> [Entity User]
+        usersWhoAre av amap =
+            sortBy (comparing (userFirstname . entityVal)) 
+            . Import.map ((umap M.!) . availabilityUser . entityVal)
+            $ amap ! av
+
+        
+        fs :: [(Available, Text, Text)]
+        fs = [(Yes,"Available", "success"), (Unsure,"Unsure", "warning"), (No,"Unavailable", "danger")]
         -- unset' = amap ! Unset 
         -- unset :: [UserId]
         -- unset  = (Import.map ( availabilityUser . entityVal) unset' ++)

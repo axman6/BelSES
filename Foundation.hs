@@ -18,6 +18,7 @@ import Database.Persist.Sql (SqlPersistT)
 import Settings.StaticFiles
 import Settings (widgetFile, Extra (..))
 import Model
+import Model.Availability
 import Text.Jasmine (minifym)
 import Text.Hamlet (hamletFile)
 import Yesod.Core.Types (Logger)

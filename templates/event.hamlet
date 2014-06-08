@@ -5,23 +5,27 @@
       <td>When:
       <td>#{show $ eventDate evt}
 
-<h4>
-  Available
-<ul>
-  $forall u <- yes
-    <li>
-      #{userPrettyName u}
 
-<h4>
-  Unsure
-<ul>
-  $forall u <- unsure
-    <li>
-      #{userPrettyName u}
-
-<h4>
-  Unavailable
-<ul>
-  $forall u <- no
-    <li>
-      #{userPrettyName u}
+<div .row .text-muted>
+  <div .col-xs-3>
+    <h5>Day
+  <div .col-xs-3>
+    <h5>
+      Night
+$forall (av,title,cls) <- fs
+  <hr>
+  <h4 .text-#{cls}>
+    #{title}
+  <div .row>
+    <div .col-xs-3>
+      <ul .list-unstyled>
+        $forall Entity uid user <- usersWhoAre av amapDay
+          <li>
+            <a href=@{UserR uid}>
+              #{userPrettyName user}
+    <div .col-xs-3>
+      <ul .list-unstyled>
+        $forall Entity uid user <- usersWhoAre av amapNight
+          <li>
+            <a href=@{UserR uid}>
+              #{userPrettyName user}
