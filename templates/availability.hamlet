@@ -1,41 +1,41 @@
 <h1> Availability
 <div .table-responsive>
-  <table .table .table-striped .table-hover .table-bordered #avail>
+  <table .table .table-striped .table-hover style="border-bottom: 1px solid #cccccc;">
     <tbody>
       <thead>
         <tr>
           <th>
           $forall Entity eid evt <- es
-            <th .text-center>
-              <h4>
-                <a href=@{EventR eid}>#{eventTitle evt}
+            <th .text-center colspan="3">
+              <h5>
+                <a href=@{EventR eid}>#{shorten 15 $ eventTitle evt}
               #{show $ eventDate evt}
-              <br>
-              <div .text-center .col-xs-5>
+        <tr .text-muted .small>
+          <th>
+          $forall _ <- es
+              <th .text-right>
                 Day
-              <div .text-center .col-xs-5>
+              <th .text-left>
                 Night
-              <div .col-xs-1></div>
+              <th .text-left>
+                Note
       <tbody>
         $forall Entity uid user <- us
           <tr>
             <td .text-right>
               <a href=@{UserR uid}>#{userPrettyName user}
-            $forall Entity eid evt <- es
-              <td>
+            $forall Entity eid _ <- es
                 $case avInfo (uid,eid)
                   $of (std,stn,note)
-                    <div .row>
-                      <div .text-center .col-xs-5>
+                      <td .text-right .tab-l>
                         <button type="button" .btn .#{availableToClass std} .btn-xs
                             onClick="upSt(this,'@{ToggleAvailR uid eid Day}');">
                             #{availableToText std}
-                      <div .text-center .col-xs-5>
+                      <td .text-left>
                         <button type="button" .btn .#{availableToClass stn} .btn-xs
                             onClick="upSt(this,'@{ToggleAvailR uid eid Night}');">
                             #{availableToText stn}
-                      
-                      <div .col-xs-1 .pull-right>
+                      <td .text-left .tab-r>
                         $maybe nt <- note
                           <button .close type="button" data-toggle="tooltip" data-placement="right" 
                                 title="comment" data-original-title="#{nt}">

@@ -12,8 +12,8 @@ getAvailR = do
     now <- liftIO $ getCurrentTime
     (es,us, rs) <- runDB $ do
         es <- selectList
-                    [EventDate >=. utctDay now]
-                    [Asc EventDate, Asc EventTime, LimitTo 10]
+                [EventDate >=. utctDay now]
+                [Asc EventDate, Asc EventTime, LimitTo 10]
         us <- selectList [] [Asc UserFirstname]
         rs <- selectList [AvailabilityEvent <-. map entityKey es] []
         return (es,us,rs)
@@ -28,6 +28,10 @@ getAvailR = do
 
     defaultLayout $ do
         setTitle "Availability"
+        toWidgetHead  [cassius|
+            .tab-l {border-left: 1px solid #cccccc;}
+            .tab-r {border-right: 1px solid #cccccc;}
+        |]
         $(widgetFile "availability")
 
 

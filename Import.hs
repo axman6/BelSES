@@ -8,6 +8,7 @@ import           Yesod                as Import hiding (Route (..))
 
 import           Control.Applicative  as Import (pure, (<$>), (<*>), (<*))
 import           Data.Text            as Import (Text)
+import           Data.Text            as T (length, append, take)
 
 import           Foundation           as Import
 import           Model                as Import
@@ -38,3 +39,6 @@ bfs' m = bfs m
 
 formLayout :: BootstrapFormLayout
 formLayout = BootstrapHorizontalForm (ColSm 0) (ColSm 2) (ColSm 0) (ColSm 10)
+
+shorten :: Int -> Text -> Text
+shorten n t = if T.length t > n then T.take (n - 3) t `T.append` "..." else t
