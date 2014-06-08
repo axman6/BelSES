@@ -15,7 +15,7 @@ function upSt(target,url) {
     $.ajax({
         url: url,
         type: 'POST',
-        dataType: 'html',
+        dataType: 'text',
         success: function(response){
             cl = ''
             switch(response){

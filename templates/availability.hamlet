@@ -1,5 +1,5 @@
 <h1> Availability
-<div .table-responsive style="height:500px">
+<div .table-responsive>
   <table .table .table-striped .table-hover .table-bordered #avail>
     <tbody>
       <thead>
@@ -10,26 +10,41 @@
               <h4>
                 <a href=@{EventR eid}>#{eventTitle evt}
               #{show $ eventDate evt}
+              <br>
+              <div .text-center .col-xs-5>
+                Day
+              <div .text-center .col-xs-5>
+                Night
+              <div .col-xs-1></div>
       <tbody>
         $forall Entity uid user <- us
           <tr>
             <td .text-right>
-              <a href=@{UserR uid}>#{userShortName user}
+              <a href=@{UserR uid}>#{userPrettyName user}
             $forall Entity eid evt <- es
-              <td .text-center>
+              <td>
                 $case avInfo (uid,eid)
-                  $of (cls,cont,note)
-                
-                    <button type="button" .btn .#{cls} .btn-xs
-                        onClick="upSt(this,'@{ToggleAvailR uid eid}');">
-                        #{preEscapedToMarkup cont}
+                  $of (std,stn,note)
+                    <div .row>
+                      <div .text-center .col-xs-5>
+                        <button type="button" .btn .#{availableToClass std} .btn-xs
+                            onClick="upSt(this,'@{ToggleAvailR uid eid Day}');">
+                            #{availableToText std}
+                      <div .text-center .col-xs-5>
+                        <button type="button" .btn .#{availableToClass stn} .btn-xs
+                            onClick="upSt(this,'@{ToggleAvailR uid eid Night}');">
+                            #{availableToText stn}
+                      
+                      <div .col-xs-1 .pull-right>
+                        $maybe nt <- note
+                          <button .close type="button" data-toggle="tooltip" data-placement="right" 
+                                title="comment" data-original-title="#{nt}">
+                            <span .glyphicon .glyphicon-comment .text-muted></span>
+                        $nothing
+                          <button .close  type="button" data-toggle="tooltip" data-placement="right" 
+                                title="comment" data-original-title="">
+                            <span .glyphicon .glyphicon-comment .text-muted></span>
+
                     
-                    $maybe nt <- note
-                       <button type="button" .close data-toggle="tooltip" data-placement="right" 
-                             title="comment" data-original-title="#{nt}">
-                         <span .glyphicon .glyphicon-comment .pull-right .text-muted></span>
-                    $nothing
-                      <button type="button" .close data-toggle="tooltip" data-placement="right" 
-                            title="comment" data-original-title="">
-                        <span .glyphicon .glyphicon-comment .pull-right .text-muted></span>
+
 
