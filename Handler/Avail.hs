@@ -18,33 +18,43 @@ getAvailR = do
         rs <- selectList [AvailabilityEvent <-. map entityKey es] []
         return (es,us,rs)
     
-    let mp = M.fromList $ map (\(Entity _ (Availability u e st note)) -> ((u,e),(st,note))) rs
+    let mp = M.fromList $ map (\(Entity _ (Availability u e std stn note)) -> ((u,e),(std, stn, note))) rs
         
-        avInfo :: (UserId,EventId) -> (Text, Text, Maybe Text)
+        avInfo :: (UserId,EventId) -> (Available, Available, Maybe Text)
         avInfo (uid,eid) = case M.lookup (uid,eid) mp of
-            Nothing ->             ("btn-default"   ,"&nbsp;&nbsp;&nbsp;"   ,Nothing)
-            Just (Yes,    note) -> ("btn-success"   ,"Yes"                  ,note)
-            Just (No,     note) -> ("btn-danger"    ,"No"                   ,note)
-            Just (Unsure, note) -> ("btn-warning"   ,"Unsure"               ,note)
-            Just (Unset,  note) -> ("btn-default"   ,"&nbsp;&nbsp;&nbsp;"   ,note)
+            Nothing -> (Unset, Unset,Nothing)
+            Just a  -> a
+
 
     defaultLayout $ do
         setTitle "Availability"
         $(widgetFile "availability")
 
 
-postToggleAvailR :: UserId -> EventId -> Handler Text
-postToggleAvailR uid eid = do
+updateAvail :: Period -> Availability -> (Availability,Available)
+updateAvail Day a =
+    let newSt = toggleAvailability (availabilityStatusDay a)
+    in (a {availabilityStatusDay   = newSt}, newSt)
+updateAvail Night a = 
+    let newSt = toggleAvailability (availabilityStatusNight a)
+    in (a {availabilityStatusNight = newSt}, newSt)
+
+
+postToggleAvailR :: UserId -> EventId -> Period -> Handler Text
+postToggleAvailR uid eid per = do
     res <- runDB $ do
         ma <- getBy $ UniqueAvailability uid eid
         case ma of
             Nothing -> do
-                _ <- insert $ Availability uid eid Yes Nothing
+                _ <- case per of
+                    Day   -> insert $ Availability uid eid Yes Unset Nothing
+                    Night -> insert $ Availability uid eid Unset Yes Nothing
                 return Yes
             Just (Entity aid a) -> do
-                let newStatus = toggleAvailability (availabilityStatus a)
-                update aid
-                    [AvailabilityStatus =. newStatus]
+                let (_,newStatus) = updateAvail per a
+                update aid $ case per of
+                        Day   -> [AvailabilityStatusDay   =. newStatus]
+                        Night -> [AvailabilityStatusNight =. newStatus]
                 return newStatus
     return . pack . show $ res
 
