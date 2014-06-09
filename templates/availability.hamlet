@@ -2,15 +2,16 @@
 <div .table-responsive>
   <table .table .table-striped .table-hover #av-table style="border-bottom: 1px solid #cccccc;">
     <tbody>
+      
       <thead>
         <tr>
           <th>
           $forall day <- days
             <th .text-center colspan="3">
               <h5>
-                <a href="#">(Day link)
+                <a href=@{DailyR day}>#{show $ day}
                 $# <a href=@{EventR eid}>#{shorten 15 $ eventTitle evt}
-              #{show $ day}
+              
         <tr .text-muted .small>
           <th>
           $forall _ <- days
@@ -20,6 +21,7 @@
                 Night
               <th .text-left>
                 Note
+      
       <tbody>
         $forall Entity uid user <- us
           <tr>

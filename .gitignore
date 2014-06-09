@@ -13,3 +13,4 @@ uploads/
 cabal.sandbox.config
 .DS_Store
 *.swp
+*.tmproj

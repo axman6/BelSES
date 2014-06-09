@@ -13,6 +13,7 @@
 /event/#EventId EventR GET
 /availability AvailR GET
 /availability/daily/toggle/#UserId/#Day/#Period ToggleDailyAvailR POST
+/availability/daily/#Day DailyR GET
 
 /documents DocumentsR GET POST
 /document/#DocumentId DocumentR GET POST

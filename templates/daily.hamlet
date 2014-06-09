@@ -1,0 +1,47 @@
+$# <h1>#{eventTitle evt}
+  <div .row>
+$#   <div .col-sm-6 style="border-right:1px solid grey;">
+$#     <table .table>
+$#       <tbody>
+$#         <tr>
+$#           <td>When:
+$#           <td>#{show $ eventDate evt} #{show $ eventTime evt}
+$#         $maybe loc <- eventLocation evt
+$#           <tr>
+$#             <td>Location:
+$#             <td>#{loc}
+$#         $maybe link <- eventLink evt
+$#           <tr>
+$#             <td>URL:
+$#             <td>
+$#               <a href="#{link}">
+$#                 #{link}
+$#         $maybe note <- eventNotes evt
+$#           <tr>
+$#             <td>Notes:
+$#             <td>#{note}
+
+   <div .col-sm-6 style="border-left:1px solid grey;">
+     <div .row .text-muted>
+       <div .col-xs-6>
+         <h5>Day
+       <div .col-xs-6>
+         <h5>
+           Night
+     <hr>
+     $forall (av,title,cls) <- fs
+       <h4 .text-#{cls}>
+         #{title}
+       <div .row>
+         <div .col-xs-6>
+           <ul .list-unstyled>
+             $forall Entity uid user <- usersWhoAre av amapDay
+               <li>
+                 <a href=@{UserR uid}>
+                   #{userPrettyName user}
+         <div .col-xs-6>
+           <ul .list-unstyled>
+             $forall Entity uid user <- usersWhoAre av amapNight
+               <li>
+                 <a href=@{UserR uid}>
+                   #{userPrettyName user}

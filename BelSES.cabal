@@ -27,6 +27,7 @@ library
                      Handler.Avail
                      Handler.Documents
                      Handler.Document
+                     Handler.Daily
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
