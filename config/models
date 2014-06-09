@@ -23,13 +23,13 @@ Event
     link        Text Maybe
     notes       Text Maybe
 
-Availability
+DailyAvailability
     user        UserId
-    event       EventId
+    date        Day
     statusDay   Available
     statusNight Available
     comment     Text Maybe
-    UniqueAvailability user event
+    UniqueDailyAvailability user date
 
 Document
     title       Text

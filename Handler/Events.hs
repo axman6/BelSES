@@ -5,7 +5,6 @@ import Import
 import Data.Time.Clock
 import Yesod.Form.Jquery
 import Yesod.Form.Bootstrap3
-import qualified Control.Monad as M
 
 
 getEventsR :: Handler Html

@@ -1,18 +1,19 @@
 <h1> Availability
 <div .table-responsive>
-  <table .table .table-striped .table-hover style="border-bottom: 1px solid #cccccc;">
+  <table .table .table-striped .table-hover #av-table style="border-bottom: 1px solid #cccccc;">
     <tbody>
       <thead>
         <tr>
           <th>
-          $forall Entity eid evt <- es
+          $forall day <- days
             <th .text-center colspan="3">
               <h5>
-                <a href=@{EventR eid}>#{shorten 15 $ eventTitle evt}
-              #{show $ eventDate evt}
+                <a href="#">(Day link)
+                $# <a href=@{EventR eid}>#{shorten 15 $ eventTitle evt}
+              #{show $ day}
         <tr .text-muted .small>
           <th>
-          $forall _ <- es
+          $forall _ <- days
               <th .text-right>
                 Day
               <th .text-left>
@@ -24,16 +25,16 @@
           <tr>
             <td .text-right>
               <a href=@{UserR uid}>#{userPrettyName user}
-            $forall Entity eid _ <- es
-                $case avInfo (uid,eid)
+            $forall day <- days
+                $case avInfo (uid,day)
                   $of (std,stn,note)
                       <td .text-right .tab-l>
                         <button type="button" .btn .#{availableToClass std} .btn-xs
-                            onClick="upSt(this,'@{ToggleAvailR uid eid Day}');">
+                            onClick="upSt(this,'@{ToggleDailyAvailR uid day Day}');">
                             #{availableToText std}
                       <td .text-left>
                         <button type="button" .btn .#{availableToClass stn} .btn-xs
-                            onClick="upSt(this,'@{ToggleAvailR uid eid Night}');">
+                            onClick="upSt(this,'@{ToggleDailyAvailR uid day Night}');">
                             #{availableToText stn}
                       <td .text-left .tab-r>
                         $maybe nt <- note

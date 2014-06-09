@@ -1,0 +1,4 @@
+.tab-l {border-left: 1px solid #cccccc;}
+.tab-r {border-right: 1px solid #cccccc;}
+#av-table td, #av-table th {padding: 8px 2px;}
+

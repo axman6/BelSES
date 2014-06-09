@@ -3,66 +3,56 @@ module Handler.Event where
 import Import
 import qualified Data.Text as T
 import Data.Map.Strict as M
-import Data.Set as S
 import Model.Availability
 import Handler.Users (userPrettyName)
 import Data.List (sortBy)
 import Data.Ord (comparing)
+import Data.Time.Calendar
 
 getEventR :: EventId -> Handler Html
 getEventR eid = do
-    (evt,avs,us) <- runDB $ do
+    -- (avs,us) <- runDB $ do
+    evt <- runDB $ do
         evt <- get404 eid
-        avs <- selectList [AvailabilityEvent ==. eid] []
-        us  <- selectList [] [Asc UserFirstname]
-        return (evt,avs,us)
-    let amapDay :: M.Map Available [Entity Availability]
-        amapDay =
-            M.fromListWith (++)
-            . (Import.map (\s -> (s,[])) [Yes, No, Unsure, Unset] ++)
-            . Import.map (\(Entity avid avail) -> (availabilityStatusDay avail, [Entity avid avail]))
-            $ avs
-        
-        amapNight :: M.Map Available [Entity Availability]
-        amapNight =
-            M.fromListWith (++)
-            . (Import.map (\s -> (s,[])) [Yes, No, Unsure, Unset] ++)
-            . Import.map (\(Entity avid avail) -> (availabilityStatusNight avail, [Entity avid avail]))
-            $ avs
-        
-        umap :: M.Map UserId (Entity User)
-        umap =
-            M.fromList
-            . Import.map (\ue@(Entity uid _) -> (uid,ue))
-            $ us
-        -- uset :: S.Set UserId
-        -- uset =
-        --     S.fromList
-        --     . Import.map (\(Entity uid _) -> uid)
-        --     $ us
-        usersWhoAre :: Available -> M.Map Available [Entity Availability] -> [Entity User]
-        usersWhoAre av amap =
-            sortBy (comparing (userFirstname . entityVal)) 
-            . Import.map ((umap M.!) . availabilityUser . entityVal)
-            $ amap ! av
+        -- avs <- selectList [DailyAvailabilityDate ==. day] []
+        -- us  <- selectList [] [Asc UserFirstname]
+        -- return (avs,us)
+        return evt
+    -- let amapDay :: M.Map Available [Entity DailyAvailability]
+    --     amapDay =
+    --         M.fromListWith (++)
+    --         . (Import.map (\s -> (s,[])) [Yes, No, Unsure, Unset] ++)
+    --         . Import.map (\(Entity avid avail) -> (dailyAvailabilityStatusDay avail, [Entity avid avail]))
+    --         $ avs
+    --     
+    --     amapNight :: M.Map Available [Entity DailyAvailability]
+    --     amapNight =
+    --         M.fromListWith (++)
+    --         . (Import.map (\s -> (s,[])) [Yes, No, Unsure, Unset] ++)
+    --         . Import.map (\(Entity avid avail) -> (dailyAvailabilityStatusNight avail, [Entity avid avail]))
+    --         $ avs
+    --     
+    --     umap :: M.Map UserId (Entity User)
+    --     umap =
+    --         M.fromList
+    --         . Import.map (\ue@(Entity uid _) -> (uid,ue))
+    --         $ us
+    -- 
+    --     usersWhoAre :: Available -> M.Map Available [Entity DailyAvailability] -> [Entity User]
+    --     usersWhoAre av amap =
+    --         sortBy (comparing (userFirstname . entityVal)) 
+    --         . Import.map ((umap M.!) . dailyAvailabilityUser . entityVal)
+    --         $ amap ! av
+    -- 
+    --     
+    --     fs :: [(Available, Text, Text)]
+    --     fs = [(Yes,"Available", "success"), (Unsure,"Unsure", "warning"), (No,"Unavailable", "danger")]
 
-        
-        fs :: [(Available, Text, Text)]
-        fs = [(Yes,"Available", "success"), (Unsure,"Unsure", "warning"), (No,"Unavailable", "danger")]
-        -- unset' = amap ! Unset 
-        -- unset :: [UserId]
-        -- unset  = (Import.map ( availabilityUser . entityVal) unset' ++)
-        --     . Import.map (umap M.!)
-        --     $ S.toList (uset S.\\ S.fromList seen)
-        -- --         ++ S.toList
-        -- --         $ uset S.\\ S.fromList []
-        -- seen   = do
-        --     l <- [yes, no, unsure, unset']
-        --     Entity aid av <- l
-        --     return (availabilityUser av)
         
     defaultLayout $ do
         setTitle . toHtml . T.concat $ ["Event - ", eventTitle evt]
+        
+        -- setTitle . toHtml . T.concat $ ["Event - ", T.pack . show $ day]
         $(widgetFile "event")
     
 

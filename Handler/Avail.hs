@@ -2,63 +2,66 @@ module Handler.Avail where
 
 import Import
 import Data.Time.Clock
+import Data.Time.Calendar
 import qualified Data.Map as M
 import Model.Availability
 import Handler.Users
 import Data.Text (pack)
 
+numEvents :: Integer
+numEvents = 6
+
+
 getAvailR :: Handler Html
 getAvailR = do
     now <- liftIO $ getCurrentTime
+    let today = utctDay now
     (es,us, rs) <- runDB $ do
         es <- selectList
-                [EventDate >=. utctDay now]
-                [Asc EventDate, Asc EventTime, LimitTo 10]
+                [EventDate >=. today]
+                [Asc EventDate, Asc EventTime, LimitTo (fromInteger numEvents)]
         us <- selectList [] [Asc UserFirstname]
-        rs <- selectList [AvailabilityEvent <-. map entityKey es] []
+        rs <- selectList [DailyAvailabilityDate >=. today, DailyAvailabilityDate <. addDays numEvents today] []
         return (es,us,rs)
     
-    let mp = M.fromList $ map (\(Entity _ (Availability u e std stn note)) -> ((u,e),(std, stn, note))) rs
+    let mp = M.fromList $ map (\(Entity _ (DailyAvailability u d std stn note)) -> ((u,d),(std, stn, note))) rs
         
-        avInfo :: (UserId,EventId) -> (Available, Available, Maybe Text)
-        avInfo (uid,eid) = case M.lookup (uid,eid) mp of
+        avInfo :: (UserId,Day) -> (Available, Available, Maybe Text)
+        avInfo (uid,day) = case M.lookup (uid,day) mp of
             Nothing -> (Unset, Unset,Nothing)
             Just a  -> a
 
+        days = [today .. addDays numEvents today]
 
     defaultLayout $ do
         setTitle "Availability"
-        toWidgetHead  [cassius|
-            .tab-l {border-left: 1px solid #cccccc;}
-            .tab-r {border-right: 1px solid #cccccc;}
-        |]
         $(widgetFile "availability")
 
 
-updateAvail :: Period -> Availability -> (Availability,Available)
+updateAvail :: Period -> DailyAvailability -> (DailyAvailability,Available)
 updateAvail Day a =
-    let newSt = toggleAvailability (availabilityStatusDay a)
-    in (a {availabilityStatusDay   = newSt}, newSt)
+    let newSt = toggleAvailability (dailyAvailabilityStatusDay a)
+    in (a {dailyAvailabilityStatusDay   = newSt}, newSt)
 updateAvail Night a = 
-    let newSt = toggleAvailability (availabilityStatusNight a)
-    in (a {availabilityStatusNight = newSt}, newSt)
+    let newSt = toggleAvailability (dailyAvailabilityStatusNight a)
+    in (a {dailyAvailabilityStatusNight = newSt}, newSt)
 
 
-postToggleAvailR :: UserId -> EventId -> Period -> Handler Text
-postToggleAvailR uid eid per = do
+postToggleDailyAvailR :: UserId -> Day -> Period -> Handler Text
+postToggleDailyAvailR uid day per = do
     res <- runDB $ do
-        ma <- getBy $ UniqueAvailability uid eid
+        ma <- getBy $ UniqueDailyAvailability uid day
         case ma of
             Nothing -> do
                 _ <- case per of
-                    Day   -> insert $ Availability uid eid Yes Unset Nothing
-                    Night -> insert $ Availability uid eid Unset Yes Nothing
+                    Day   -> insert $ DailyAvailability uid day Yes Unset Nothing
+                    Night -> insert $ DailyAvailability uid day Unset Yes Nothing
                 return Yes
             Just (Entity aid a) -> do
                 let (_,newStatus) = updateAvail per a
                 update aid $ case per of
-                        Day   -> [AvailabilityStatusDay   =. newStatus]
-                        Night -> [AvailabilityStatusNight =. newStatus]
+                        Day   -> [DailyAvailabilityStatusDay   =. newStatus]
+                        Night -> [DailyAvailabilityStatusNight =. newStatus]
                 return newStatus
     return . pack . show $ res
 
