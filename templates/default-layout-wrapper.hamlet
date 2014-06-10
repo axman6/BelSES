@@ -27,7 +27,6 @@ $newline never
       <div .container>
         <header>
           <nav .navbar .navbar-default role="navigation">
-            <div .container-fluid>
               <div .navbar-header>
                 <button type=button .navbar-toggle data-toggle=collapse data-target="#navbar-collapse-main">
                         <span class="sr-only">Toggle navigation

@@ -3,24 +3,24 @@
   <table .table .table-striped .table-hover #av-table style="border-bottom: 1px solid #cccccc;">
     <tbody>
       
-      <thead>
+      <thead style="background-color: #ffffff;">
         <tr>
           <th>
           $forall day <- days
-            <th .text-center colspan="3">
-              <h5>
+            <th .text-center colspan="2">
+              <small>
                 <a href=@{DailyR day}>#{show $ day}
                 $# <a href=@{EventR eid}>#{shorten 15 $ eventTitle evt}
               
-        <tr .text-muted .small>
-          <th>
-          $forall _ <- days
-              <th .text-right>
-                Day
-              <th .text-left>
-                Night
-              <th .text-left>
-                Note
+        $#<tr .text-muted .small>
+        $#  <th>
+        $#  $forall _ <- days
+        $#      <th .text-center>
+        $#        Day
+        $#      <!-- <th .text-left>
+        $#        Night -->
+        $#      <th .text-center>
+        $#        Note
       
       <tbody>
         $forall Entity uid user <- us
@@ -30,15 +30,18 @@
             $forall day <- days
                 $case avInfo (uid,day)
                   $of (std,stn,note)
-                      <td .text-right .tab-l>
-                        <button type="button" .btn .#{availableToClass std} .btn-xs
-                            onClick="upSt(this,'@{ToggleDailyAvailR uid day Day}');">
-                            #{availableToText std}
-                      <td .text-left>
-                        <button type="button" .btn .#{availableToClass stn} .btn-xs
-                            onClick="upSt(this,'@{ToggleDailyAvailR uid day Night}');">
-                            #{availableToText stn}
-                      <td .text-left .tab-r>
+                      <td .text-center .tab-l>
+                        <div>
+                          <button type="button" .btn .#{availableToClass std} .btn-xs
+                              onClick="upSt(this,'@{ToggleDailyAvailR uid day Day}');">
+                              <span .glyphicon .#{availableToIcon std}></span>
+                              $# #{availableToText std}
+                        <div>
+                          <button type="button" .btn .#{availableToClass stn} .btn-xs
+                              onClick="upSt(this,'@{ToggleDailyAvailR uid day Night}');">
+                              <span .glyphicon .#{availableToIcon stn}></span>
+                              $# #{availableToText stn}
+                      <td .text-center .tab-r>
                         $maybe nt <- note
                           <button .close type="button" data-toggle="tooltip" data-placement="right" 
                                 title="comment" data-original-title="#{nt}">

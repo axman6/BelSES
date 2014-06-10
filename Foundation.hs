@@ -83,6 +83,7 @@ instance Yesod App where
             -- addScriptEither $ urlJqueryJs master
             addScriptRemote "http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"
             addScriptRemote "//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"
+            addScriptRemote "/static/js/jquery.floatThead.min.js"
             $(combineStylesheets 'StaticR
                 [ css_normalize_css
                 , css_bootstrap_css
@@ -113,6 +114,7 @@ instance Yesod App where
 
     -- Place Javascript at bottom of the body tag so the rest of the page loads first
     jsLoader _ = BottomOfBody
+    -- jsLoader _ = BottomOfHeadBlocking
 
     -- What messages should be logged. The following includes all messages when
     -- in development, and warnings and errors in production.

@@ -1,16 +1,24 @@
 function upSt(target,url) {
     
     var t = $(target);
+    var span = t.find("span.glyphicon");
     var oldClass    = t.attr('class');
-    var oldContent  = t.html();
+    // var oldContent  = t.html();
+    var oldSpan     = span.attr('class');
+    
+    console.log(span);
     
     t.removeClass('btn-default');
     t.removeClass('btn-success');
     t.removeClass('btn-danger');
     t.removeClass('btn-warning');
+    span.removeClass('glyphicon-ok-sign');
+    span.removeClass('glyphicon-remove-sign');
+    span.removeClass('glyphicon-question-sign');
+    span.removeClass('glyphicon-minus');
+
     t.addClass('disabled');
-    
-    t.html('<img src="/static/img/ajax-loader.gif"/>');
+    span.addClass('glyphicon-refresh');
     
     $.ajax({
         url: url,
@@ -18,38 +26,34 @@ function upSt(target,url) {
         dataType: 'text',
         success: function(response){
             cl = ''
+            spcl = ''
             switch(response){
-                case 'Unset':   cl = 'default'; break;
-                case 'Yes':     cl = 'success'; break;
-                case 'No':      cl = 'danger'; break;
-                case 'Unsure':  cl = 'warning'; break;
+                case 'Unset':   cl = 'btn-default'; spcl = 'glyphicon-minus'        ;    break;
+                case 'Yes':     cl = 'btn-success'; spcl = 'glyphicon-ok-sign'      ;    break;
+                case 'No':      cl = 'btn-danger' ; spcl = 'glyphicon-remove-sign'  ;    break;
+                case 'Unsure':  cl = 'btn-warning'; spcl = 'glyphicon-question-sign';    break;
             }
             
-            t.addClass('btn-'.concat(cl));
-            
-            if(response == 'Unset'){
-                t.html('&nbsp;&nbsp;&nbsp;');
-            } else {
-                t.text(response);
-            }
+            t.addClass(cl);
+            span.removeClass('glyphicon-refresh');
+            span.addClass(spcl);
             
         },
         error: function( xhr, status, errorThrown ){
             t.attr('class',oldClass);
-            t.html(oldContent);
+            span.attr('class', oldSpan);
+            // t.html(oldContent);
             t.removeClass('disabled');
+            span.removeClass('glyphicon-refresh');
         },
         complete: function(xhr,status){
             t.removeClass('disabled');
+            span.removeClass('glyphicon-refresh');
         }
     })
 }
 
-// $( document ).ready(function() {
-//     console.log( "ready!" );
-//     $('#avail').fixedHeaderTable({
-//         footer: false,
-//         cloneHeadToFoot: false,
-//         fixedColumn: true
-//     });
-// });
+$(document).ready(function() {
+    console.log( "ready!" );
+    $('#av-table').floatThead();
+});

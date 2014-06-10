@@ -6,6 +6,7 @@ module Model.Availability
     , toggleAvailability
     , availableToText
     , availableToClass
+    , availableToIcon
     )
  where
 
@@ -52,6 +53,14 @@ availableToClass a = case a of
     No      ->"btn-danger" 
     Unsure  ->"btn-warning"
     Unset   ->"btn-default"
+
+
+availableToIcon :: Available -> Text
+availableToIcon a = case a of
+    Yes     ->"glyphicon-ok-sign"
+    No      ->"glyphicon-remove-sign" 
+    Unsure  ->"glyphicon-question-sign"
+    Unset   ->"glyphicon-minus"
 
 derivePersistField "Available"
 derivePersistField "Period"
