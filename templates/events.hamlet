@@ -1,7 +1,7 @@
 <h1> Events
   <button .btn .btn-primary .pull-right data-toggle="modal" data-target="#add-user-modal">Add event
 
-$forall (Entity eid evt, ename) <- us
+$forall (Entity eid evt, ename) <- es
   <div .panel-group #accordion>
     <div .panel panel-default>
       <div .panel-heading>
