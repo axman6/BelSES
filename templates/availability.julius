@@ -6,17 +6,7 @@ function upSt(target,url) {
     // var oldContent  = t.html();
     var oldSpan     = span.attr('class');
     
-    console.log(span);
-    
-    t.removeClass('btn-default');
-    t.removeClass('btn-success');
-    t.removeClass('btn-danger');
-    t.removeClass('btn-warning');
-    span.removeClass('glyphicon-ok-sign');
-    span.removeClass('glyphicon-remove-sign');
-    span.removeClass('glyphicon-question-sign');
-    span.removeClass('glyphicon-minus');
-
+    t.removeClass('btn-default btn-success btn-danger btn-warning');
     t.addClass('disabled');
     span.addClass('glyphicon-refresh');
     
