@@ -4,10 +4,7 @@ function upSt(target,url) {
     var oldClass    = t.attr('class');
     var oldContent  = t.html();
     
-    t.removeClass('btn-default');
-    t.removeClass('btn-success');
-    t.removeClass('btn-danger');
-    t.removeClass('btn-warning');
+    t.removeClass('btn-default 'btn-success btn-danger btn-warning');
     t.addClass('disabled');
     
     t.html('<img src="/static/img/ajax-loader.gif"/>');
