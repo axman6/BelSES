@@ -8,6 +8,7 @@ function upSt(target,url) {
     
     t.removeClass('btn-default btn-success btn-danger btn-warning');
     t.addClass('disabled');
+    span.removeClass('glyphicon-minus glyphicon-ok-sign glyphicon-remove-sign glyphicon-question-sign')
     span.addClass('glyphicon-refresh');
     
     $.ajax({
@@ -32,7 +33,6 @@ function upSt(target,url) {
         error: function( xhr, status, errorThrown ){
             t.attr('class',oldClass);
             span.attr('class', oldSpan);
-            // t.html(oldContent);
             t.removeClass('disabled');
             span.removeClass('glyphicon-refresh');
         },

@@ -27,12 +27,12 @@ postEventsR = do
     let submission = case result of
             FormSuccess res -> Just res
             _ -> Nothing
-    us' <- runDB $ do 
+    es' <- runDB $ do 
         case submission of
             Nothing -> return ()
             Just event -> insert event >> return ()
         selectList [EventDate >=. utctDay now] [Asc EventDate, Asc EventTime, LimitTo 10]
-    us <- mapM (\u -> (u,) <$> newIdent) us'
+    es <- mapM (\u -> (u,) <$> newIdent) es'
     defaultLayout $ do
         setTitle "Events"
         $(widgetFile "events")
