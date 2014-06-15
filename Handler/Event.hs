@@ -12,41 +12,34 @@ import Data.Time.Calendar
 getEventR :: EventId -> Handler Html
 getEventR eid = do
     -- (avs,us) <- runDB $ do
-    evt <- runDB $ do
+    (evt,avs,us) <- runDB $ do
         evt <- get404 eid
-        -- avs <- selectList [DailyAvailabilityDate ==. day] []
-        -- us  <- selectList [] [Asc UserFirstname]
-        -- return (avs,us)
-        return evt
-    -- let amapDay :: M.Map Available [Entity DailyAvailability]
-    --     amapDay =
-    --         M.fromListWith (++)
-    --         . (Import.map (\s -> (s,[])) [Yes, No, Unsure, Unset] ++)
-    --         . Import.map (\(Entity avid avail) -> (dailyAvailabilityStatusDay avail, [Entity avid avail]))
-    --         $ avs
-    --     
-    --     amapNight :: M.Map Available [Entity DailyAvailability]
-    --     amapNight =
-    --         M.fromListWith (++)
-    --         . (Import.map (\s -> (s,[])) [Yes, No, Unsure, Unset] ++)
-    --         . Import.map (\(Entity avid avail) -> (dailyAvailabilityStatusNight avail, [Entity avid avail]))
-    --         $ avs
-    --     
-    --     umap :: M.Map UserId (Entity User)
-    --     umap =
-    --         M.fromList
-    --         . Import.map (\ue@(Entity uid _) -> (uid,ue))
-    --         $ us
-    -- 
-    --     usersWhoAre :: Available -> M.Map Available [Entity DailyAvailability] -> [Entity User]
-    --     usersWhoAre av amap =
-    --         sortBy (comparing (userFirstname . entityVal)) 
-    --         . Import.map ((umap M.!) . dailyAvailabilityUser . entityVal)
-    --         $ amap ! av
-    -- 
-    --     
-    --     fs :: [(Available, Text, Text)]
-    --     fs = [(Yes,"Available", "success"), (Unsure,"Unsure", "warning"), (No,"Unavailable", "danger")]
+        avs <- selectList [EventAvailabilityEvent ==. eid] []
+        us  <- selectList [] [Asc UserFirstname]
+        return (evt,avs,us)
+        -- return evt
+    let evmap :: M.Map Available [Entity EventAvailability]
+        evmap =
+            M.fromListWith (++)
+            . (Import.map (\s -> (s,[])) [Yes, No, Unsure, Unset] ++)
+            . Import.map (\(Entity eavid eavail) -> (eventAvailabilityStatus eavail, [Entity eavid eavail]))
+            $ avs
+
+        umap :: M.Map UserId (Entity User)
+        umap =
+            M.fromList
+            . Import.map (\ue@(Entity uid _) -> (uid,ue))
+            $ us
+    
+        usersWhoAre :: Available -> M.Map Available [Entity EventAvailability] -> [Entity User]
+        usersWhoAre av amap =
+            sortBy (comparing (userFirstname . entityVal)) 
+            . Import.map ((umap M.!) . eventAvailabilityUser . entityVal)
+            $ amap ! av
+    
+        
+        fs :: [(Available, Text, Text)]
+        fs = [(Yes,"Available", "success"), (Unsure,"Unsure", "warning"), (No,"Unavailable", "danger")]
 
         
     defaultLayout $ do

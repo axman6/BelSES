@@ -1,10 +1,8 @@
 function upSt(target,url) {
-    
-    var t = $(target);
-    var span = t.find("span.glyphicon");
-    var oldClass    = t.attr('class');
-    // var oldContent  = t.html();
-    var oldSpan     = span.attr('class');
+    var t            = $(target);
+    var span         = t.find("span.glyphicon");
+    var oldClass     = t.attr('class');
+    var oldSpanClass = span.attr('class');
     
     t.removeClass('btn-default btn-success btn-danger btn-warning');
     t.addClass('disabled');
@@ -19,21 +17,21 @@ function upSt(target,url) {
             cl = ''
             spcl = ''
             switch(response){
-                case 'Unset':   cl = 'btn-default'; spcl = 'glyphicon-minus'        ;    break;
-                case 'Yes':     cl = 'btn-success'; spcl = 'glyphicon-ok-sign'      ;    break;
-                case 'No':      cl = 'btn-danger' ; spcl = 'glyphicon-remove-sign'  ;    break;
-                case 'Unsure':  cl = 'btn-warning'; spcl = 'glyphicon-question-sign';    break;
+                case 'Unset':   cl = 'btn-default'; spcl = 'glyphicon-minus'        ; break;
+                case 'Yes':     cl = 'btn-success'; spcl = 'glyphicon-ok-sign'      ; break;
+                case 'No':      cl = 'btn-danger' ; spcl = 'glyphicon-remove-sign'  ; break;
+                case 'Unsure':  cl = 'btn-warning'; spcl = 'glyphicon-question-sign'; break;
             }
             
             t.addClass(cl);
             span.removeClass('glyphicon-refresh');
             span.addClass(spcl);
-            
         },
         error: function( xhr, status, errorThrown ){
+            console.log(status + ": " + errorThrown);
             t.attr('class',oldClass);
-            span.attr('class', oldSpan);
             t.removeClass('disabled');
+            span.attr('class', oldSpanClass);
             span.removeClass('glyphicon-refresh');
         },
         complete: function(xhr,status){
@@ -44,6 +42,5 @@ function upSt(target,url) {
 }
 
 $(document).ready(function() {
-    console.log( "ready!" );
     $('#av-table').floatThead();
 });
