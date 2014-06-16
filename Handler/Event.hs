@@ -7,7 +7,6 @@ import Model.Availability
 import Handler.Users (userPrettyName)
 import Data.List (sortBy)
 import Data.Ord (comparing)
-import Data.Time.Calendar
 
 getEventR :: EventId -> Handler Html
 getEventR eid = do

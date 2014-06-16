@@ -1,7 +1,6 @@
 module Handler.Daily where
 
 import Import
-import qualified Data.Text as T
 import Data.Map.Strict as M
 import Model.Availability
 import Handler.Users (userPrettyName)
@@ -12,11 +11,11 @@ import Data.Time.Calendar
 getDailyR :: Day -> Handler Html
 getDailyR day = do
     -- (avs,us) <- runDB $ do
-    (evt,avs,us) <- runDB $ do
-        evt <- getBy $ UniqueDailyInfo day
-        avs <- selectList [DailyAvailabilityDate ==. day] []
-        us  <- selectList [] [Asc UserFirstname]
-        return (evt,avs,us)
+    (mevt,avs,us) <- runDB $ do
+        mevt <- getBy $ UniqueDailyInfo day
+        avs  <- selectList [DailyAvailabilityDate ==. day] []
+        us   <- selectList [] [Asc UserFirstname]
+        return (mevt,avs,us)
     let amapDay :: M.Map Available [Entity DailyAvailability]
         amapDay =
             M.fromListWith (++)
@@ -49,9 +48,8 @@ getDailyR day = do
 
         
     defaultLayout $ do
-        -- setTitle . toHtml . T.concat $ ["Event - ", eventTitle evt]
-        
         setTitle . toHtml . concat $ ["Availability - ", show $ day]
         $(widgetFile "daily")
+
 
 

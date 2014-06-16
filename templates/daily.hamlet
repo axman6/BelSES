@@ -1,34 +1,30 @@
-$# <h1>#{eventTitle evt}
-  <div .row>
-$#   <div .col-sm-6 style="border-right:1px solid grey;">
-$#     <table .table>
-$#       <tbody>
-$#         <tr>
-$#           <td>When:
-$#           <td>#{show $ eventDate evt} #{show $ eventTime evt}
-$#         $maybe loc <- eventLocation evt
-$#           <tr>
-$#             <td>Location:
-$#             <td>#{loc}
-$#         $maybe link <- eventLink evt
-$#           <tr>
-$#             <td>URL:
-$#             <td>
-$#               <a href="#{link}">
-$#                 #{link}
-$#         $maybe note <- eventNotes evt
-$#           <tr>
-$#             <td>Notes:
-$#             <td>#{note}
+
+<h1>
+  #{show day}
+<div .row>
+   <div .col-sm-6>
+     $maybe Entity _ evt <- mevt
+       <table .table>
+         <tbody>
+           <tr>
+             <td>When:
+             <td>#{show $ dailyInfoDate evt}
+
+           $maybe note <- dailyInfoNotes evt
+             <tr>
+               <td>Notes:
+               <td>#{note}
+     $nothing
+       <p>
+         No info for #{show day}
 
    <div .col-sm-6 style="border-left:1px solid grey;">
-     <div .row .text-muted>
+     <div .row .text-muted.small>
+       <div .col-xs-6 >
+         Day
        <div .col-xs-6>
-         <h5>Day
-       <div .col-xs-6>
-         <h5>
-           Night
-     <hr>
+         Night
+     $#<hr>
      $forall (av,title,cls) <- fs
        <h4 .text-#{cls}>
          #{title}
