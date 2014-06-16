@@ -9,20 +9,17 @@ import Handler.Users
 import Data.Text (pack)
 
 numEvents :: Integer
-numEvents = 6
+numEvents = 7
 
 
 getAvailR :: Handler Html
 getAvailR = do
     now <- liftIO $ getCurrentTime
     let today = utctDay now
-    (es,us, rs) <- runDB $ do
-        es <- selectList
-                [EventDate >=. today]
-                [Asc EventDate, Asc EventTime, LimitTo (fromInteger numEvents)]
+    (us, rs) <- runDB $ do
         us <- selectList [] [Asc UserFirstname]
         rs <- selectList [DailyAvailabilityDate >=. today, DailyAvailabilityDate <. addDays numEvents today] []
-        return (es,us,rs)
+        return (us,rs)
     
     let mp = M.fromList $ map (\(Entity _ (DailyAvailability u d std stn note)) -> ((u,d),(std, stn, note))) rs
         
