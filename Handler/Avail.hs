@@ -50,9 +50,9 @@ postToggleDailyAvailR uid day per = do
         ma <- getBy $ UniqueDailyAvailability uid day
         case ma of
             Nothing -> do
-                _ <- case per of
-                    Day   -> insert $ DailyAvailability uid day Yes Unset Nothing
-                    Night -> insert $ DailyAvailability uid day Unset Yes Nothing
+                _ <- insert $ case per of
+                    Day   -> DailyAvailability uid day Yes Unset Nothing
+                    Night -> DailyAvailability uid day Unset Yes Nothing
                 return Yes
             Just (Entity aid a) -> do
                 let (_,newStatus) = updateAvail per a
