@@ -1,5 +1,9 @@
 -- | Development version to be run inside GHCi.
 
+-- =================================================
+-- = https://github.com/chrisdone/ghci-reload-demo =
+-- =================================================
+
 module DevelMain where
 
 import Prelude
