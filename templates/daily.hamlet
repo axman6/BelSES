@@ -20,17 +20,17 @@
 
    <div .col-sm-6 style="border-left:1px solid grey;">
      <div .row .text-muted.small>
-       <div .col-xs-6 >
+       <div .col-xs-6 .text-right>
          Day
        <div .col-xs-6>
          Night
      $#<hr>
      $forall (av,title,cls) <- fs
-       <h4 .text-#{cls}>
+       <h4 .text-#{cls} .text-center>
          #{title}
        <div .row>
          <div .col-xs-6>
-           <ul .list-unstyled>
+           <ul .list-unstyled .text-right>
              $forall Entity uid user <- usersWhoAre av amapDay
                <li>
                  <a href=@{UserR uid}>
