@@ -19,3 +19,4 @@
 /document/#DocumentId DocumentR GET POST
 /document/#DocumentId/download DocumentDownloadR GET
 /calendar CalendarR GET
+/calendar/json CalendarJsonR GET
