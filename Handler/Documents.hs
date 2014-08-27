@@ -8,7 +8,7 @@ import Data.Time.Clock
 getDocumentsR :: Handler Html
 getDocumentsR = do
     docs <- runDB $ selectList [] [Asc DocumentTitle]
-    ((result, formWidget), formEnctype) <- runFormPost newDocumentForm
+    ((_result, formWidget), formEnctype) <- runFormPost newDocumentForm
     defaultLayout $ do
         setTitle "Documents"
         $(widgetFile "documents")

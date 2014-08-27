@@ -41,4 +41,7 @@ formLayout :: BootstrapFormLayout
 formLayout = BootstrapHorizontalForm (ColSm 0) (ColSm 2) (ColSm 0) (ColSm 10)
 
 shorten :: Int -> Text -> Text
-shorten n t = if T.length t > n then T.take (n - 3) t `T.append` "..." else t
+shorten len txt =
+	if T.length txt > len
+		then T.take (len - 3) txt `T.append` "..."
+		else txt

@@ -10,7 +10,7 @@ import Yesod.Form.Bootstrap3
 getEventsR :: Handler Html
 getEventsR = do
     now <- liftIO $ getCurrentTime
-    es' <- runDB $ selectList [EventDate >=. utctDay now] [Asc EventDate, Asc EventTime, LimitTo 10]
+    es' <- runDB $ selectList [EventDate >=. utctDay now] [Asc EventDate, Asc EventTime, LimitTo 20]
     es <- mapM (\u -> (u,) <$> newIdent) es'
     -- let mus = listToMaybe us
     (formWidget, formEnctype) <- generateFormPost eventForm

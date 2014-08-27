@@ -8,8 +8,8 @@ import Model.Availability
 import Handler.Users
 import Data.Text (pack)
 
-numEvents :: Integer
-numEvents = 7
+defDays :: Integer
+defDays = 7
 
 
 getAvailR :: Handler Html
@@ -18,7 +18,9 @@ getAvailR = do
     let today = utctDay now
     (us, rs) <- runDB $ do
         us <- selectList [] [Asc UserFirstname]
-        rs <- selectList [DailyAvailabilityDate >=. today, DailyAvailabilityDate <. addDays numEvents today] []
+        rs <- selectList [ DailyAvailabilityDate >=. today
+                         , DailyAvailabilityDate <. addDays defDays today]
+                         []
         return (us,rs)
     
     let mp = M.fromList $ map (\(Entity _ (DailyAvailability u d std stn note)) -> ((u,d),(std, stn, note))) rs
@@ -28,7 +30,7 @@ getAvailR = do
             Nothing -> (Unset, Unset,Nothing)
             Just a  -> a
 
-        days = [today .. addDays numEvents today]
+        days = [today .. addDays defDays today]
 
     defaultLayout $ do
         setTitle "Availability"
