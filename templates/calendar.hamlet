@@ -1,0 +1,11 @@
+<div #calendar></div>
+$#<p>
+$#    #{show prevSunday}
+$#<p>
+$#    #{show finalSaturday}
+$#<table>
+$#    $forall week <- weeks
+$#        <tr>
+$#        $forall day <- week
+$#            <td>
+$#                <p>#{day}
