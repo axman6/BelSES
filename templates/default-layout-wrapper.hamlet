@@ -38,9 +38,17 @@ $newline never
               <div .collapse .navbar-collapse #navbar-collapse-main>
                 <ul .nav .navbar-nav>
                   <li>
-                    <a href=@{AvailR}>Availability
-                  <li>
-                    <a href=@{EventsR}>Events
+                    <a href="#"
+                      .dropdown-toggle
+                      data-toggle="dropdown">Availability <span .caret></span>
+                    <ul .dropdown-menu role="menu">
+                      <li>
+                        <a href=@{AvailR}>Daily Availability
+                      <li>
+                        <a href=@{EventsR}>Events
+                      <li>
+                        <a href=@{CalendarR}>Calendar
+                      
                   <li>
                     <a href=@{DocumentsR}>Documents
                   <li>
