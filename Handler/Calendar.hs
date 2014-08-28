@@ -2,7 +2,7 @@
 module Handler.Calendar where
 
 import           Data.Aeson
-import           Data.Text  (unpack)
+import           Data.Text                   (unpack)
 import           Data.Time
 import           Import
 
