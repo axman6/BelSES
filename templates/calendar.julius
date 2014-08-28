@@ -1,14 +1,24 @@
 $(document).ready(function() {
-
-    // page is now ready, initialize the calendar...
-
-    $('#calendar').fullCalendar({
-        // put your options and callbacks here
+	$('#calendar').fullCalendar({
         "header": {
         	left:   'title',
 		    center: '',
 		    right:  'today month,agendaWeek,agendaDay prev,next'
-        }
-    })
+        },
 
+        eventSources: [
+        	{
+		        "url": '@{CalendarJsonR}',
+        	}
+        ],
+
+        dayClick: function(date, jsEvent, view) {
+
+	        // TODO: use type safe URLs - DailyR
+	        window.location = '/availability/daily/'+date.format();
+
+	        // REMINDER: $(this) refers to the square for the day
+	        // $(this).css('background-color', 'red');
+	    }
+    });
 });

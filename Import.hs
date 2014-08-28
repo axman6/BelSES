@@ -45,3 +45,8 @@ shorten len txt =
 	if T.length txt > len
 		then T.take (len - 3) txt `T.append` "..."
 		else txt
+
+readM :: Read a => String -> Maybe a
+readM str = case reads str of
+                ((x,_):_) -> Just x
+                _       -> Nothing
