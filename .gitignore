@@ -16,3 +16,4 @@ cabal.sandbox.config
 *.tmproj
 BelSES.sqlite3-shm
 BelSES.sqlite3-wal
+Third Party
