@@ -20,6 +20,10 @@ import           Data.Maybe           as Import (fromMaybe)
 
 import           Yesod.Form.Bootstrap3
 
+import           System.Locale                  (defaultTimeLocale)
+import           Data.Time
+import           Data.Time.Format
+
 
 #if __GLASGOW_HASKELL__ >= 704
 import           Data.Monoid          as Import
@@ -28,7 +32,6 @@ import           Data.Monoid          as Import
 #else
 import           Data.Monoid          as Import
                                                  (Monoid (mappend, mempty, mconcat))
-
 infixr 5 <>
 (<>) :: Monoid m => m -> m -> m
 (<>) = mappend
@@ -50,3 +53,5 @@ readM :: Read a => String -> Maybe a
 readM str = case reads str of
                 ((x,_):_) -> Just x
                 _       -> Nothing
+
+isoDateTime = formatTime defaultTimeLocale "%Y-%m-%dT%T%z"
