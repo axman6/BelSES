@@ -5,3 +5,16 @@ BelSES:
     ✔ Add event end date and time @done (14-08-30 13:40)
   Calendar:
     ☐ set trigger for popover to focus (http://getbootstrap.com/javascript/#popovers-usage) @js
+  Availability:
+    ☐ Add notes support
+  Documents:
+    ☐ Add folder support
+    ☐ Add version support
+  Users:
+    ☐ Authentication
+    ☐ Roles
+    ☐ Administration
+    ☐ Qualifications
+    ☐ Reports
+  Photos:
+    ☐ Support photos
