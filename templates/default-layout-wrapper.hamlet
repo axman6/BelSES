@@ -40,7 +40,9 @@ $newline never
                   <li>
                     <a href="#"
                       .dropdown-toggle
-                      data-toggle="dropdown">Availability <span .caret></span>
+                      data-toggle="dropdown">
+                        Availability
+                        <span .caret></span>
                     <ul .dropdown-menu role="menu">
                       <li>
                         <a href=@{AvailR}>Daily Availability
