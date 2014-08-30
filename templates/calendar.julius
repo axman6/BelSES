@@ -1,24 +1,41 @@
 $(document).ready(function() {
-	$('#calendar').fullCalendar({
+    $('#calendar').fullCalendar({
         header: {
-        	left:   'title',
-		    center: '',
-		    right:  'today month,agendaWeek,agendaDay prev,next'
+            left:   'title',
+            center: '',
+            right:  'today month,agendaWeek,agendaDay prev,next'
         },
 
         eventSources: [
-        	{
-		        "url": '@{CalendarJsonR}',
-        	}
+            {
+                "url": '@{CalendarJsonR}',
+            }
         ],
 
         dayClick: function(date, jsEvent, view) {
 
-	        // TODO: use type safe URLs - DailyR
-	        window.location = '/availability/daily/'+date.format();
+            // TODO: use type safe URLs - DailyR
+            window.location = '/availability/daily/'+date.format();
 
-	        // REMINDER: $(this) refers to the square for the day
-	        // $(this).css('background-color', 'red');
-	    }
+            // REMINDER: $(this) refers to the square for the day
+            // $(this).css('background-color', 'red');
+        },
+
+        eventMouseover: function( event, jsEvent, view ) {
+            $(this).popover({
+                title: "Test Title",
+                // A custom field supplied by the JSON
+                content: event.content,
+                html: true,
+                placement: 'right',
+                // trigger: 'focus', // Should disappear when clicking away
+            });
+
+            $(this).popover('show');
+        },
+        
+        eventMouseout: function( event, jsEvent, view ) {
+            $(this).popover('hide');
+        }
     });
 });
