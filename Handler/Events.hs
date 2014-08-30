@@ -43,12 +43,19 @@ postEventsR = do
 eventForm :: Html -> MForm Handler (FormResult Event, Widget)
 eventForm = renderBootstrap3 formLayout
     $ Event
-     <$> areq textField  (bfs' "Title") (Just "Training")
+     <$> areq textField  (bfs' "Title *") (Just "Training")
      <*> areq (jqueryDayField def
-         { jdsChangeYear = True -- give a year dropdown
-         , jdsYearRange = "2010:+30" -- 1900 till five years ago
-         })  (bfs' "Date") Nothing
-     <*> areq timeField (bfs' "Time") Nothing
+             { jdsChangeYear = True -- give a year dropdown
+             , jdsYearRange = "2010:+30"
+             })
+            (bfs' "Date *") Nothing
+     <*> areq timeField (bfs' "Time *") Nothing
+     <*> aopt (jqueryDayField def
+             { jdsChangeYear = True
+             , jdsYearRange = "2010:+30"
+             })
+            (bfs' "Finish Date") Nothing
+     <*> aopt timeField (bfs' "Finish time") Nothing
      <*> aopt textField  (bfs' "Location") Nothing
      <*> aopt urlField  (bfs' "Link") Nothing
      <*> (fmap unTextarea <$> aopt textareaField  (bfs' "Notes") (Just Nothing))

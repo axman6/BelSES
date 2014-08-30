@@ -19,6 +19,8 @@ Event
     title       Text
     date        Day
     time        TimeOfDay
+    endDate     Day Maybe
+    endTime     TimeOfDay Maybe
     location    Text Maybe
     link        Text Maybe
     notes       Text Maybe
