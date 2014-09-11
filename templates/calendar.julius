@@ -23,19 +23,19 @@ $(document).ready(function() {
 
         eventMouseover: function( event, jsEvent, view ) {
             $(this).popover({
-                title: "Test Title",
+                title: event.title,
                 // A custom field supplied by the JSON
                 content: event.content,
                 html: true,
-                placement: 'right',
-                // trigger: 'focus', // Should disappear when clicking away
+                placement: 'auto right bottom',
+                trigger: 'hover', // Should disappear when clicking away
             });
 
             $(this).popover('show');
         },
         
         eventMouseout: function( event, jsEvent, view ) {
-            $(this).popover('hide');
+            // $(this).popover('hide');
         }
     });
 });
