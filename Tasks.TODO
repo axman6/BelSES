@@ -1,12 +1,13 @@
 Document made using PlainTasks Sublime Text plugin
 BelSES:
   Events:
-    ☐ 
     ✔ Add event end date and time @done (14-08-30 13:40)
   Calendar:
+    ☐ Render more info in popup using HTML @blaze
     ☐ set trigger for popover to focus (http://getbootstrap.com/javascript/#popovers-usage) @js
   Availability:
     ☐ Add notes support
+    ☐ Add setting of status for range of dates
   Documents:
     ☐ Add folder support
     ☐ Add version support
