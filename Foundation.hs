@@ -81,12 +81,16 @@ instance Yesod App where
 
         pc <- widgetToPageContent $ do
             -- addScriptEither $ urlJqueryJs master
-            addScriptRemote "http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"
-            addScriptRemote "//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"
-            addScriptRemote "/static/js/jquery.floatThead.min.js"
+            --addScriptRemote "http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"
+            --addScriptRemote "//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"
+            addScript     $ StaticR js_jquery_min_js
+            addScript     $ StaticR js_jquery_ui_custom_min_js
+            addScript     $ StaticR js_bootstrap_js
+            addScript     $ StaticR js_jquery_floatThead_min_js
             $(combineStylesheets 'StaticR
                 [ css_normalize_css
                 , css_bootstrap_css
+                , css_jquery_ui_min_css
                 ])
             $(widgetFile "default-layout")
         giveUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")
