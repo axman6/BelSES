@@ -5,9 +5,8 @@ import           Data.Aeson
 import           Data.Text                   (unpack)
 import           Data.Time
 import           Import
---import           Text.Blaze.Renderer.Text (renderMarkup)
---import           Text.Blaze.Html5 hiding (object, div, map)
---import           Text.Blaze.Html5.Attributes
+import           Text.Blaze.Html.Renderer.Text (renderHtml)
+
 
 getCalendarR :: Handler Html
 getCalendarR = do
@@ -49,10 +48,38 @@ getCalendarJsonR = do
                 ,"title" .= eventTitle ev
                 ,"start" .= isoDateTime dt
                 --,"url"   .= rend (EventR i)
-                ,"content" .= eventNotes ev
-                --,"content" .= renderMarkup $ div $ do
-                --    a ! href (rend (EventR i)) $ h3 $ eventTitle ev
+                --,"content" .= eventNotes ev
+                ,"content" .= renderHtml [shamlet|
+<table>
+    <tbody>
+        <tr>
+            <td>
+                <strong>Start:
+            <td>
+                #{prettyDateTime dt}
+        $maybe loc <- eventLocation ev
+            <tr>
+                <td>
+                    <strong>Location:
+                <td>
+                    #{loc}
+        $maybe link <- eventLink ev
+            <tr>
+                <td>
+                    <strong>Link:
+                <td>
+                    <a href="#{link}">
+                        #{link}
+        $maybe note <- eventNotes ev
+            <tr colspan=2>
+                <td>
+                    <strong>Notes:
+            <tr colspan=2>
+                <td>
+                    #{shorten 200 note}
 
+
+                |]
 
                 -- End time is either the recorded end time
                 -- or the start time plus an hour (and a second because)
@@ -63,7 +90,7 @@ getCalendarJsonR = do
                                  mendTime
                 ]
     
-    case mse of
+    case mse of 
         Nothing -> return $ object []
         Just (start, end) -> do
             es <- runDB $
