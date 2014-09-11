@@ -61,6 +61,14 @@ getCalendarJsonR = do
         Nothing -> return $ object []
         Just (start, end) -> do
             es <- runDB $
-                selectList [EventDate >=. start, EventDate <=. end]
-                           [Asc EventDate, Desc EventTime]
+                selectList [FilterOr 
+                                [FilterAnd 
+                                    [EventDate >=. start,
+                                     EventDate <=. end]
+                                ,FilterAnd 
+                                    [EventEndDate >=. Just start, 
+                                     EventEndDate <=. Just end]
+                                ]
+                            ]
+                           []
             return $ toJSON $ map eventToJson $ es
