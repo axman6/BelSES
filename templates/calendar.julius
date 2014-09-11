@@ -22,20 +22,22 @@ $(document).ready(function() {
         },
 
         eventMouseover: function( event, jsEvent, view ) {
-            $(this).popover({
-                title: event.title,
-                // A custom field supplied by the JSON
-                content: event.content,
-                html: true,
-                placement: 'auto right bottom',
-                trigger: 'hover', // Should disappear when clicking away
-            });
+            $(this)
+                .popover({
+                    title: event.title,
+                    // A custom field supplied by the JSON
+                    content: event.content,
+                    html: true,
+                    placement: 'auto right bottom top left',
+                    trigger: 'click', // Should disappear when clicking away
+                })
+            // $(this).data('popover').tip().css('z-index', 1030);
 
-            $(this).popover('show');
+            // $(this).popover('show');
         },
         
-        eventMouseout: function( event, jsEvent, view ) {
-            // $(this).popover('hide');
-        }
+        // eventMouseout: function( event, jsEvent, view ) {
+        //     // $(this).popover('hide');
+        // }
     });
 });

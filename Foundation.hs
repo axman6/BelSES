@@ -80,12 +80,12 @@ instance Yesod App where
         -- you to use normal widget features in default-layout.
 
         pc <- widgetToPageContent $ do
-            -- addScriptEither $ urlJqueryJs master
+            addScriptEither $ urlJqueryJs master
             --addScriptRemote "http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"
-            --addScriptRemote "//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"
-            addScript     $ StaticR js_jquery_min_js
-            addScript     $ StaticR js_jquery_ui_custom_min_js
-            addScript     $ StaticR js_bootstrap_js
+            addScriptRemote "//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"
+            --addScript     $ StaticR js_jquery_min_js
+            --addScript     $ StaticR js_jquery_ui_custom_min_js
+            --addScript     $ StaticR js_bootstrap_js
             addScript     $ StaticR js_jquery_floatThead_min_js
             $(combineStylesheets 'StaticR
                 [ css_normalize_css
