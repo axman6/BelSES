@@ -5,7 +5,9 @@ import           Data.Aeson
 import           Data.Text                   (unpack)
 import           Data.Time
 import           Import
-
+--import           Text.Blaze.Renderer.Text (renderMarkup)
+--import           Text.Blaze.Html5 hiding (object, div, map)
+--import           Text.Blaze.Html5.Attributes
 
 getCalendarR :: Handler Html
 getCalendarR = do
@@ -48,6 +50,10 @@ getCalendarJsonR = do
                 ,"start" .= isoDateTime dt
                 --,"url"   .= rend (EventR i)
                 ,"content" .= eventNotes ev
+                --,"content" .= renderMarkup $ div $ do
+                --    a ! href (rend (EventR i)) $ h3 $ eventTitle ev
+
+
                 -- End time is either the recorded end time
                 -- or the start time plus an hour (and a second because)
                 -- FullCalendar defines it as the first time AFTER the event
