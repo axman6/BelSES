@@ -1,0 +1,15 @@
+{
+	"folders":
+	[
+		{
+			"folder_exclude_patterns":
+			[
+				".cabal-sandbox",
+				"static/tmp",
+				"dist"
+			],
+			"follow_symlinks": true,
+			"path": "."
+		}
+	]
+}
