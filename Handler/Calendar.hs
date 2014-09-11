@@ -20,7 +20,7 @@ getCalendarJsonR :: Handler Value
 getCalendarJsonR = do
     mstart <- lookupGetParam "start"
     mend   <- lookupGetParam "end"
-    rend <- getUrlRender
+    rend   <- getUrlRender
 
     let mse :: Maybe (Day, Day)
         mse = do
@@ -30,28 +30,32 @@ getCalendarJsonR = do
 
         eventToJson :: Entity Event -> Value
         eventToJson (Entity i ev) =
-            let datetime date time = UTCTime date (timeOfDayToTime time)
+            let datetime :: Day -> TimeOfDay -> UTCTime
+                datetime date time = UTCTime date (timeOfDayToTime time)
 
+                dt :: UTCTime
                 dt = datetime (eventDate ev) (eventTime ev)
-                dtStr = isoDateTime $ dt
                 
+                mendTime :: Maybe UTCTime
                 mendTime = do
                         edate <- eventEndDate ev
                         etime <- eventEndTime ev
-                        return $ isoDateTime (datetime edate etime)
+                        return $ (datetime edate etime)
             in
             object $ [
-                "id"    .= show (unKey i),
-                "title" .= eventTitle ev,
-                "start" .= dtStr,
-                "url"   .= rend (EventR i),
-                "content" .= eventNotes ev
+                 "id"    .= toPathPiece (unKey i)
+                ,"title" .= eventTitle ev
+                ,"start" .= isoDateTime dt
+                --,"url"   .= rend (EventR i)
+                ,"content" .= eventNotes ev
                 -- End time is either the recorded end time
                 -- or the start time plus an hour (and a second because)
                 -- FullCalendar defines it as the first time AFTER the event
-            ] ++ maybe ["end" .= isoDateTime (addUTCTime 3601 dt)] 
-                        (\endTime -> ["end" .= endTime])
-                        mendTime
+                -- Defaults to 1h from start time
+                , "end" .= maybe (isoDateTime (addUTCTime 3601 dt))
+                                 (\et -> isoDateTime (addUTCTime 1 et))
+                                 mendTime
+                ]
     
     case mse of
         Nothing -> return $ object []

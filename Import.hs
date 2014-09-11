@@ -54,4 +54,5 @@ readM str = case reads str of
                 ((x,_):_) -> Just x
                 _       -> Nothing
 
+isoDateTime :: FormatTime t => t -> String
 isoDateTime = formatTime defaultTimeLocale "%Y-%m-%dT%T%z"
