@@ -57,6 +57,12 @@ getCalendarJsonR = do
                 <strong>Start:
             <td>
                 #{prettyDateTime dt}
+        $maybe endtime <- mendTime
+            <tr>
+                <td>
+                    <strong>Finish:
+                <td>
+                    #{endtime}
         $maybe loc <- eventLocation ev
             <tr>
                 <td>
@@ -66,7 +72,7 @@ getCalendarJsonR = do
         $maybe link <- eventLink ev
             <tr>
                 <td>
-                    <strong>Link:
+                    <strong>URL:
                 <td>
                     <a href="#{link}">
                         #{link}
