@@ -3,7 +3,7 @@ module Handler.Daily where
 import Import
 import Data.Map.Strict as M
 import Model.Availability
-import Handler.Users (userPrettyName)
+import Model.Users (userPrettyName)
 import Data.List (sortBy)
 import Data.Ord (comparing)
 import Data.Time.Calendar

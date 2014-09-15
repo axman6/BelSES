@@ -5,7 +5,7 @@ import Data.Time.Clock
 import Data.Time.Calendar
 import qualified Data.Map as M
 import Model.Availability
-import Handler.Users
+import Model.Users
 import Data.Text (pack)
 
 defDays :: Integer

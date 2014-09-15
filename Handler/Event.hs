@@ -4,7 +4,7 @@ import Import
 import qualified Data.Text as T
 import Data.Map.Strict as M
 import Model.Availability
-import Handler.Users (userPrettyName)
+import Model.Users (userPrettyName)
 import Data.List (sortBy)
 import Data.Ord (comparing)
 
