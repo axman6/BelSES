@@ -2,39 +2,39 @@ User
     email       Text
     firstname   Text
     lastname    Text
-    nickname    Text Maybe
-    password    Text Maybe -- Password may not be set yet
-    verkey      Text Maybe -- Used for resetting passwords
-    verified    Bool default=0
+    nickname    Text        Maybe
+    password    Text        Maybe -- Password may not be set yet
+    verkey      Text        Maybe -- Used for resetting passwords
+    verified    Bool                default=0
     UniqueUser email
     deriving Typeable
 
 Email
     email       Text
-    user        UserId Maybe
-    verkey      Text Maybe
+    user        UserId      Maybe
+    verkey      Text        Maybe
     UniqueEmail email
 
 Event
     title       Text
     date        Day
     time        TimeOfDay
-    endDate     Day Maybe
-    endTime     TimeOfDay Maybe
-    location    Text Maybe
-    link        Text Maybe
-    notes       Text Maybe
+    endDate     Day         Maybe
+    endTime     TimeOfDay   Maybe
+    location    Text        Maybe
+    link        Text        Maybe
+    notes       Text        Maybe
 
 EventAvailability
     user        UserId
     event       EventId
     status      Available
-    comment     Text Maybe
+    comment     Text        Maybe
 
 
 DailyInfo
     date        Day
-    notes       Text Maybe
+    notes       Text        Maybe
     UniqueDailyInfo date
 
 DailyAvailability
@@ -42,7 +42,7 @@ DailyAvailability
     date        Day
     statusDay   Available
     statusNight Available
-    comment     Text Maybe
+    comment     Text        Maybe
     UniqueDailyAvailability user date
 
 
