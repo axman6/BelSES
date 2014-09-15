@@ -15,6 +15,7 @@ getCalendarR = do
         addScript     $ StaticR js_moment_with_locales_js
         addScript     $ StaticR js_fullcalendar_2_1_0_fullcalendar_js
         addStylesheet $ StaticR js_fullcalendar_2_1_0_fullcalendar_css
+        
         $(widgetFile "calendar")
 
 getCalendarJsonR :: Handler Value
@@ -77,11 +78,11 @@ getCalendarJsonR = do
                     <a href="#{link}">
                         #{link}
         $maybe note <- eventNotes ev
-            <tr colspan=2>
-                <td>
+            <tr>
+                <td colspan=2>
                     <strong>Notes:
-            <tr colspan=2>
-                <td>
+            <tr>
+                <td colspan=2>
                     #{shorten 200 note}
 
 
