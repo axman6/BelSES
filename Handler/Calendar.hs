@@ -62,7 +62,7 @@ getCalendarJsonR = do
                 <td>
                     <strong>Finish:
                 <td>
-                    #{endtime}
+                    #{prettyDateTime endtime}
         $maybe loc <- eventLocation ev
             <tr>
                 <td>
