@@ -1,12 +1,14 @@
 User
-    email       Text
+    username    Text
+    UniqueUser username
+    emailAddr   Text
     firstname   Text
     lastname    Text
     nickname    Text        Maybe
-    password    Text        Maybe -- Password may not be set yet
-    verkey      Text        Maybe -- Used for resetting passwords
+    password    ByteString  -- Maybe -- Password may not be set yet
+    verkey      Text        -- Maybe -- Used for resetting passwords
+    resetPassKey Text
     verified    Bool                default=0
-    UniqueUser email
     deriving Typeable
 
 Email

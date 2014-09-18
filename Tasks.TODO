@@ -14,7 +14,17 @@ BelSES:
   Users:
     ☐ Authentication
     ☐ Roles
+      ☐ Admin, Officer, Member
+      ☐ Come up with sane authorisation for each page and action
+        ☐ Admin can do all
+        ☐ Officer can view all info and change some info
+        ☐ Member can change own info but only see some other user info
     ☐ Administration
+      ☐ Create new add user
+      ☐ Remove "new user" link from login form; only admins should be adding new users
+      ☐ Edit user details
+      ☐ Restrict to only admin and officer roles
+      ☐ User can change own details
     ☐ Qualifications
     ☐ Reports
   Photos:

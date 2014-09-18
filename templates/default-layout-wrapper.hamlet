@@ -55,13 +55,15 @@ $newline never
                     <a href=@{DocumentsR}>Documents
                   <li>
                     <a href=@{UsersR}>Users
-                  $maybe user <- maid
-                    <li>
-                      Logged in
-                    <li>
-                      <a href="@{AuthR LogoutR}">Logout
-                  $nothing
-                    <li>
+                $maybe user <- maid
+                  <p .navbar-text .navbar-right>
+                    Logged in. 
+                    <a href="@{AuthR LogoutR}" 
+                       class="navbar-link">Logout
+                      
+                $nothing
+                  <ul .nav .navbar-nav .navbar-right>
+                    <li .navbar-right>
                       <a href="@{AuthR LoginR}">Login
 
                 

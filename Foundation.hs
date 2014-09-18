@@ -1,10 +1,12 @@
+{-# LANGUAGE FlexibleInstances #-}
 module Foundation where
 
 import Prelude
 import Yesod
 import Yesod.Static
 import Yesod.Auth
-import Yesod.Auth.Email
+--import Yesod.Auth.Email
+import Yesod.Auth.Account
 -- import Yesod.Auth.BrowserId
 -- import Yesod.Auth.GoogleEmail
 
@@ -147,31 +149,50 @@ instance YesodAuth App where
         x <- getBy $ UniqueUser $ credsIdent creds
         case x of
             Just (Entity uid _) -> return $ Just uid
-            Nothing -> do
-                fmap Just $ insert User
-                    { userEmail = credsIdent creds
-                    , userFirstname = ""
-                    , userLastname = ""
-                    , userNickname = Nothing
-                    , userPassword = Nothing
-                    , userVerkey = Nothing
-                    , userVerified = False
-                    }
+            Nothing -> return Nothing 
 
     -- You can add other plugins like BrowserID, email or OAuth here
-    authPlugins _ = [authEmail]
+    authPlugins _ = [accountPlugin]
 
-    authHttpManager = error "Email doesn't need an HTTP manager"
+    authHttpManager = error "Account doesn't need an HTTP manager"
 
 
 
-instance YesodAuthEmail App where
-    type AuthEmailId App = UserId
+--instance YesodAuthEmail App where
+--    type AuthEmailId App = UserId
 
-    afterPasswordRoute _ = AvailR
+--    afterPasswordRoute _ = AvailR
 
-    addUnverified email verkey =
-        runDB $ insert $ User email "" "" Nothing Nothing (Just verkey) False
+--    addUnverified email verkey =
+--        runDB $ insert $ User email "" "" Nothing Nothing (Just verkey) False
+
+
+
+instance PersistUserCredentials User where
+    userUsernameF = UserUsername
+    userPasswordHashF = UserPassword
+    userEmailF = UserEmailAddr
+    userEmailVerifiedF = UserVerified
+    userEmailVerifyKeyF = UserVerkey
+    userResetPwdKeyF = UserResetPassKey
+    uniqueUsername = UniqueUser
+
+    userCreate name email key pwd = User
+        { userUsername  = name
+        , userEmailAddr = email
+        , userFirstname = ""
+        , userLastname  = ""
+        , userNickname  = Nothing
+        , userPassword  = pwd
+        , userVerkey    = key
+        , userResetPassKey = ""
+        , userVerified  = False
+        }
+
+instance AccountSendEmail App
+
+instance YesodAuthAccount (AccountPersistDB App User) App where
+    runAccountDB = runAccountPersistDB
 
 -- Make sure that we can use jQuery form elements
 instance YesodJquery App

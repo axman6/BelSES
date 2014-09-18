@@ -44,16 +44,16 @@ newUserForm' :: Form Text
 newUserForm' = renderDivs $ areq textField "New user's name:" Nothing
 
 newUserForm :: Form User
-newUserForm = renderBootstrap3 formLayout
-    $ User
-    <$> areq emailField  (bfs' "Email:") Nothing
-    <*> areq textField  (bfs' "First name:") Nothing
-    <*> areq textField  (bfs' "Last name:") Nothing
-    <*> aopt textField  (bfs' "Nickname:") Nothing
-    <*> pure Nothing
-    <*> pure Nothing
-    <*> pure False
-    <*  (bootstrapSubmit $ BootstrapSubmit ("Add User" :: Text) "" [])
+newUserForm = undefined -- renderBootstrap3 formLayout
+--    $ User
+--    <$> areq emailField  (bfs' "Email:") Nothing
+--    <*> areq textField  (bfs' "First name:") Nothing
+--    <*> areq textField  (bfs' "Last name:") Nothing
+--    <*> aopt textField  (bfs' "Nickname:") Nothing
+--    <*> pure Nothing
+--    <*> pure Nothing
+--    <*> pure False
+--    <*  (bootstrapSubmit $ BootstrapSubmit ("Add User" :: Text) "" [])
     
 
 

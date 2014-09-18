@@ -8,6 +8,7 @@ import Data.Typeable (Typeable)
 import Data.Time.Clock
 import Data.Time.Calendar
 import Data.Time.LocalTime
+import Data.ByteString (ByteString)
 
 import Model.Availability
 
